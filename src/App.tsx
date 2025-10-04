@@ -1,0 +1,44 @@
+import { useState } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { LoginScreen } from './components/LoginScreen';
+import { Header } from './components/Header';
+import { Navigation } from './components/Navigation';
+import { ClockInterface } from './components/ClockInterface';
+import { Timesheet } from './components/Timesheet';
+
+function AppContent() {
+  const { user, loading } = useAuth();
+  const [activeTab, setActiveTab] = useState<'clock' | 'timesheet'>('clock');
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <LoginScreen />;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <main className="max-w-4xl mx-auto px-4 py-6">
+        {activeTab === 'clock' ? <ClockInterface /> : <Timesheet />}
+      </main>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+
+export default App;
