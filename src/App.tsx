@@ -7,7 +7,7 @@ import { ClockInterface } from './components/ClockInterface';
 import { Timesheet } from './components/Timesheet';
 
 function AppContent() {
-  const { messUser, loading } = useAuth();
+  const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState<'clock' | 'timesheet'>('clock');
 
   if (loading) {
@@ -18,7 +18,7 @@ function AppContent() {
     );
   }
 
-  if (!messUser) {
+  if (!user) {
     return <LoginScreen />;
   }
 
