@@ -170,3 +170,45 @@ CREATE POLICY "Employees can view own attendance records"
 
 -- Insert demo employee (linked to demo@company.com auth user)
 -- Note: This will be created via the application after auth user is created
+
+CREATE TABLE mess_tbl (
+    mess_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tentid UUID NOT NULL REFERENCES mtent_tbl(mtent_tentid) ON DELETE CASCADE, -- Tenant
+    mess_empid UUID REFERENCES employees(id) ON DELETE SET NULL, -- Employee link
+
+    -- Login credentials
+    mess_email TEXT NOT NULL,
+    mess_username TEXT NOT NULL,
+    mess_password_hash TEXT NOT NULL, -- bcrypt hash
+
+    -- Access control
+    mess_role TEXT CHECK (mess_role IN ('EMPLOYEE','MANAGER','ADMIN','OWNER')) DEFAULT 'EMPLOYEE',
+    mess_is_active BOOLEAN DEFAULT TRUE,
+
+    -- Login tracking
+    mess_last_login TIMESTAMPTZ,
+    mess_login_attempts INT DEFAULT 0,
+    mess_locked_until TIMESTAMPTZ, -- optional: lock account after failed attempts
+
+    -- Metadata
+    mess_created_at TIMESTAMPTZ DEFAULT now(),
+    mess_updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- One unique account per email per tenant
+CREATE UNIQUE INDEX mess_tenant_email_unique 
+ON mess_tbl (tentid, mess_email);
+
+-- Optional: unique username per tenant
+CREATE UNIQUE INDEX mess_tenant_username_unique
+ON mess_tbl (tentid, mess_username);
+
+INSERT INTO mess_tbl (tentid, mess_empid, mess_email, mess_username, mess_password_hash, mess_role)
+VALUES (
+  'd75079e2-3922-4b18-8857-7cd333a82687', 
+  '18710c44-4bba-4fc1-a657-066e91c89c7a',
+  'lau@ace.com',
+  'lau',
+  '12345678', -- bcrypt hash
+  'EMPLOYEE'
+);
