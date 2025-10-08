@@ -26,18 +26,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const sessionData = JSON.parse(storedSession);
           const { data, error } = await supabase
             .from('mess_tbl')
-            .select('*')
+            .select(`
+              *,
+              mtent_tbl!inner(mtent_name)
+            `)
             .eq('mess_id', sessionData.mess_id)
             .maybeSingle();
 
           if (!error && data) {
+            //console.log('Session user data:', data);
             setMessUser(data);
-            await fetchEmployee(data.mess_empid);
+            if (data.mess_empid) {
+              await fetchEmployee(data.mess_empid);
+            } else {
+              setLoading(false);
+            }
           } else {
             localStorage.removeItem(AUTH_SESSION_KEY);
             setLoading(false);
           }
         } catch (err) {
+          console.error('Session check error:', err);
           localStorage.removeItem(AUTH_SESSION_KEY);
           setLoading(false);
         }
@@ -51,14 +60,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchEmployee = async (employeeId: string) => {
     try {
+      //console.log('Fetching employee:', employeeId);
       const { data, error } = await supabase
         .from('employees')
         .select('*')
         .eq('id', employeeId)
         .maybeSingle();
 
-      if (error) throw error;
-      setEmployee(data);
+      if (error) {
+        console.error('Employee fetch error:', error);
+        throw error;
+      }
+      
+      //console.log('Employee data:', data);
+      if (data) {
+        setEmployee({ ...data, tentid: messUser?.tentid });
+      }
     } catch (error) {
       console.error('Error fetching employee:', error);
     } finally {
@@ -69,7 +86,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (email: string, password: string) => {
     const { data, error } = await supabase
       .from('mess_tbl')
-      .select('*')
+      .select(`
+        *,
+        mtent_tbl!inner(mtent_name)
+      `)
       .eq('mess_email', email)
       .eq('mess_is_active', true)
       .maybeSingle();
@@ -102,9 +122,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       })
       .eq('mess_id', data.mess_id);
 
-    localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify({ mess_id: data.mess_id }));
+    localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify({ 
+      mess_id: data.mess_id,
+      tenant_id: data.tentid 
+    }));
     setMessUser(data);
-    await fetchEmployee(data.mess_empid);
+    if (data.mess_empid) {
+      await fetchEmployee(data.mess_empid);
+    }
   };
 
   const signOut = async () => {

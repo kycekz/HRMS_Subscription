@@ -1,0 +1,76 @@
+-- Sample data for testing leave management functionality
+-- This should be run after the main LeaveManagement.sql migration
+
+-- Insert sample leave types (if they don't exist)
+INSERT INTO MLET_TBL (MLET_LETID, MLET_NAME, MLET_CODE, MLET_MEDCERT, MLET_PAYROLL, MLET_ACTIVE, tentid)
+SELECT 'AL001', 'Annual Leave', 'AL', false, true, true, mtent_tentid
+FROM mtent_tbl 
+WHERE NOT EXISTS (SELECT 1 FROM MLET_TBL WHERE MLET_CODE = 'AL');
+
+INSERT INTO MLET_TBL (MLET_LETID, MLET_NAME, MLET_CODE, MLET_MEDCERT, MLET_PAYROLL, MLET_ACTIVE, tentid)
+SELECT 'ML001', 'Medical Leave', 'ML', true, true, true, mtent_tentid
+FROM mtent_tbl 
+WHERE NOT EXISTS (SELECT 1 FROM MLET_TBL WHERE MLET_CODE = 'ML');
+
+INSERT INTO MLET_TBL (MLET_LETID, MLET_NAME, MLET_CODE, MLET_MEDCERT, MLET_PAYROLL, MLET_ACTIVE, tentid)
+SELECT 'EL001', 'Emergency Leave', 'EL', false, false, true, mtent_tentid
+FROM mtent_tbl 
+WHERE NOT EXISTS (SELECT 1 FROM MLET_TBL WHERE MLET_CODE = 'EL');
+
+-- Insert sample leave balances for existing employees
+INSERT INTO TELB_TBL (TELB_EMPID, TELB_LETID, TELB_BALYR, TELB_ENTDAY, TELB_USEDDAY, TELB_PENDAY, TELB_CFDAY, TELB_CURRBAL, tentid)
+SELECT 
+    e.id,
+    'AL001',
+    EXTRACT(YEAR FROM CURRENT_DATE),
+    14.0,
+    0.0,
+    0.0,
+    0.0,
+    14.0,
+    e.tentid
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1 FROM TELB_TBL 
+    WHERE TELB_EMPID = e.id 
+    AND TELB_LETID = 'AL001' 
+    AND TELB_BALYR = EXTRACT(YEAR FROM CURRENT_DATE)
+);
+
+INSERT INTO TELB_TBL (TELB_EMPID, TELB_LETID, TELB_BALYR, TELB_ENTDAY, TELB_USEDDAY, TELB_PENDAY, TELB_CFDAY, TELB_CURRBAL, tentid)
+SELECT 
+    e.id,
+    'ML001',
+    EXTRACT(YEAR FROM CURRENT_DATE),
+    14.0,
+    0.0,
+    0.0,
+    0.0,
+    14.0,
+    e.tentid
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1 FROM TELB_TBL 
+    WHERE TELB_EMPID = e.id 
+    AND TELB_LETID = 'ML001' 
+    AND TELB_BALYR = EXTRACT(YEAR FROM CURRENT_DATE)
+);
+
+INSERT INTO TELB_TBL (TELB_EMPID, TELB_LETID, TELB_BALYR, TELB_ENTDAY, TELB_USEDDAY, TELB_PENDAY, TELB_CFDAY, TELB_CURRBAL, tentid)
+SELECT 
+    e.id,
+    'EL001',
+    EXTRACT(YEAR FROM CURRENT_DATE),
+    3.0,
+    0.0,
+    0.0,
+    0.0,
+    3.0,
+    e.tentid
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1 FROM TELB_TBL 
+    WHERE TELB_EMPID = e.id 
+    AND TELB_LETID = 'EL001' 
+    AND TELB_BALYR = EXTRACT(YEAR FROM CURRENT_DATE)
+);

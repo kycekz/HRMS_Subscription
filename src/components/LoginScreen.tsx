@@ -1,3 +1,5 @@
+{/* Updated: 2025-10-08 15:30 */}
+
 import { useState } from 'react';
 import { LogIn, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -87,6 +89,7 @@ export function LoginScreen() {
             </button>
           </form>
 
+{/*
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-sm text-gray-600 text-center">
               Demo Credentials:
@@ -96,8 +99,11 @@ export function LoginScreen() {
               <p className="text-gray-700">Password: 12345678</p>
             </div>
           </div>
+*/}
+
         </div>
-      </div>
+
+        </div>
     </div>
   );
 }

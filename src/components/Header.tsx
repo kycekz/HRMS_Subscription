@@ -2,7 +2,8 @@ import { LogOut, User } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export function Header() {
-  const { employee, signOut } = useAuth();
+  //const { employee, messUser, signOut } = useAuth();
+  const {messUser, signOut } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -20,8 +21,8 @@ export function Header() {
             <User className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-lg font-semibold text-gray-900">{employee?.full_name}</h1>
-            <p className="text-sm text-gray-600">{employee?.position}</p>
+            <h1 className="text-lg font-semibold text-gray-900">{messUser?.mess_username}</h1>
+            <p className="text-sm text-gray-600">{messUser?.mtent_tbl?.mtent_name || 'Company'} • {messUser?.mess_role} • {messUser?.mess_email} </p>
           </div>
         </div>
         <button

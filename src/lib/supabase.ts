@@ -7,6 +7,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export type Employee = {
   id: string;
+  tentid?: string;
   auth_user_id: string | null;
   email: string;
   full_name: string;
@@ -31,6 +32,7 @@ export type MessUser = {
   mess_locked_until: string | null;
   mess_created_at: string;
   mess_updated_at: string;
+  mtent_tbl?: {mtent_name: string;};
 };
 
 export type ClockEvent = {
