@@ -297,14 +297,14 @@ export function ClockInterface() {
       <div className="bg-white rounded-xl shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Clock Events</h3>
         {recentEvents.length > 0 ? (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto -mx-6 sm:mx-0 scrollbar-thin scrollbar-thumb-gray-300">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-2 text-gray-600">Event</th>
-                  <th className="text-left py-2 text-gray-600">Date</th>
-                  <th className="text-left py-2 text-gray-600">Time</th>
-                  <th className="text-left py-2 text-gray-600">Source</th>
+            <th className="text-left py-2 text-gray-600 min-w-[120px]">Event</th>
+            <th className="text-left py-2 text-gray-600 min-w-[120px]">Date</th>
+            <th className="text-left py-2 text-gray-600 min-w-[120px]">Time</th>
+            <th className="text-left py-2 text-gray-600 min-w-[200px]">Location</th>
                 </tr>
               </thead>
               <tbody>

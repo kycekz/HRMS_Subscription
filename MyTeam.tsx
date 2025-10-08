@@ -254,14 +254,14 @@ export function MyTeam() {
             {loading ? (
               <div className="text-center py-8 text-gray-600">Loading...</div>
             ) : viewMode === 'clocking' ? (
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto -mx-6 sm:mx-0 scrollbar-thin scrollbar-thumb-gray-300">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-2 text-gray-600">Event</th>
-                      <th className="text-left py-2 text-gray-600">Date</th>
-                      <th className="text-left py-2 text-gray-600">Time</th>
-                      <th className="text-left py-2 text-gray-600">Source</th>
+                      <th className="text-left py-2 text-gray-600 min-w-[120px]">Event</th>
+                      <th className="text-left py-2 text-gray-600 min-w-[120px]">Date</th>
+                      <th className="text-left py-2 text-gray-600 min-w-[120px]">Time</th>
+                      <th className="text-left py-2 text-gray-600 min-w-[120px]">Source</th>
                       <th className="text-left py-2 text-gray-600">Location</th>
                     </tr>
                   </thead>
