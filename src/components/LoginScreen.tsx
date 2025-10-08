@@ -92,8 +92,8 @@ export function LoginScreen() {
               Demo Credentials:
             </p>
             <div className="mt-2 bg-gray-50 rounded-lg p-3 text-sm font-mono">
-              <p className="text-gray-700">Email: demo@company.com</p>
-              <p className="text-gray-700">Password: demo123</p>
+              <p className="text-gray-700">Email: lau@ace.com</p>
+              <p className="text-gray-700">Password: 12345678</p>
             </div>
           </div>
         </div>

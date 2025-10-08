@@ -5,10 +5,12 @@ import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { ClockInterface } from './components/ClockInterface';
 import { Timesheet } from './components/Timesheet';
+import { MyTeam } from './components/MyTeam';
+import { LeaveApplicationList } from './components/LeaveApplicationList';
 
 function AppContent() {
-  const { user, loading } = useAuth();
-  const [activeTab, setActiveTab] = useState<'clock' | 'timesheet'>('clock');
+  const { messUser, loading } = useAuth();
+  const [activeTab, setActiveTab] = useState<'clock' | 'timesheet' | 'team' | 'leave'>('clock');
 
   if (loading) {
     return (
@@ -18,7 +20,7 @@ function AppContent() {
     );
   }
 
-  if (!user) {
+  if (!messUser) {
     return <LoginScreen />;
   }
 
@@ -27,7 +29,10 @@ function AppContent() {
       <Header />
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
       <main className="max-w-4xl mx-auto px-4 py-6">
-        {activeTab === 'clock' ? <ClockInterface /> : <Timesheet />}
+        {activeTab === 'clock' && <ClockInterface />}
+        {activeTab === 'timesheet' && <Timesheet />}
+        {activeTab === 'team' && <MyTeam />}
+        {activeTab === 'leave' && <LeaveApplicationList />}
       </main>
     </div>
   );

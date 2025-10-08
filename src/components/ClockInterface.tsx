@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { Clock, Coffee, Camera, MapPin, X } from 'lucide-react';
+import { Clock, Coffee, Camera, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase, ClockEvent } from '../lib/supabase';
+import { reverseGeocode } from '../utils/reverseGeocode';
 
 type ClockStatus = {
   isClockedIn: boolean;
@@ -10,12 +11,13 @@ type ClockStatus = {
 };
 
 export function ClockInterface() {
-  const { employee } = useAuth();
+  const { employee, messUser } = useAuth();
   const [status, setStatus] = useState<ClockStatus>({
     isClockedIn: false,
     isOnBreak: false,
     lastEvent: null,
   });
+  const [recentEvents, setRecentEvents] = useState<any[]>([]);
   const [showCamera, setShowCamera] = useState(false);
   const [eventType, setEventType] = useState<ClockEvent['event_type'] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,7 @@ export function ClockInterface() {
   useEffect(() => {
     if (employee) {
       fetchLastEvent();
+      fetchRecentEvents();
     }
   }, [employee]);
 
@@ -38,29 +41,63 @@ export function ClockInterface() {
   }, [showCamera]);
 
   const fetchLastEvent = async () => {
-    if (!employee) return;
+    if (!employee || !messUser) return;
 
-    const today = new Date().toISOString().split('T')[0];
-    const { data, error } = await supabase
-      .from('clock_events')
-      .select('*')
-      .eq('employee_id', employee.id)
-      .gte('event_time', `${today}T00:00:00`)
-      .order('event_time', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const { data, error } = await supabase
+        .from('tclock_tbl')
+        .select('*')
+        .eq('tentid', messUser.tentid)
+        .eq('tclock_empid', employee.id)
+        .gte('tclock_event_time', `${today}T00:00:00`)
+        .order('tclock_event_time', { ascending: false })
+        .limit(1)
+        .maybeSingle();
 
-    if (error) {
-      console.error('Error fetching last event:', error);
-      return;
+      if (error) {
+        console.error('Error fetching last event:', error);
+        return;
+      }
+
+      if (data) {
+        setStatus({
+          isClockedIn: data.tclock_event_type === 'CLOCK_IN' || data.tclock_event_type === 'BREAK_OUT',
+          isOnBreak: data.tclock_event_type === 'BREAK_IN',
+          lastEvent: {
+            ...data,
+            event_type: data.tclock_event_type,
+            event_time: data.tclock_event_time,
+          },
+        });
+      }
+    } catch (err) {
+      console.error('Error in fetchLastEvent:', err);
     }
+  };
 
-    if (data) {
-      setStatus({
-        isClockedIn: data.event_type === 'CLOCK_IN' || data.event_type === 'BREAK_OUT',
-        isOnBreak: data.event_type === 'BREAK_IN',
-        lastEvent: data,
-      });
+  const fetchRecentEvents = async () => {
+    if (!employee || !messUser) return;
+
+    try {
+      //console.log('Fetching events for:', { tentid: messUser.tentid, empid: employee.id });
+      const { data, error } = await supabase
+        .from('tclock_tbl')
+        .select('*')
+        .eq('tentid', messUser.tentid)
+        .eq('tclock_empid', employee.id)
+        .order('tclock_event_time', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        console.error('Error fetching recent events:', error);
+        return;
+      }
+
+      //console.log('Found events:', data);
+      setRecentEvents(data || []);
+    } catch (err) {
+      console.error('Error in fetchRecentEvents:', err);
     }
   };
 
@@ -124,33 +161,59 @@ export function ClockInterface() {
   };
 
   const handleCapture = async () => {
-    if (!employee || !eventType) return;
+    //console.log('handleCapture started', { employee, eventType });
+    if (!employee || !eventType) {
+      console.log('Missing employee or eventType');
+      return;
+    }
 
     setLoading(true);
     setError('');
 
     try {
+
+      
+      //console.log('Capturing photo...');
       const photoData = capturePhoto();
+      //console.log('Photo captured, getting location...');
+      
       const location = await getLocation();
+      //console.log('Location obtained:', location);
+      
+      //console.log('Getting location name...');
+      const locationName = await reverseGeocode(location.latitude, location.longitude);
+      //console.log('Location name:', locationName);
+      
+      
       const deviceInfo = navigator.userAgent;
+      const insertData = {
+        tentid: messUser ? messUser.tentid : null,
+        tclock_empid: employee.id,
+        tclock_event_time: new Date().toISOString(),
+        tclock_event_type: eventType,
+        tclock_source: 'MOBILE_WEB',
+        tclock_device_info: deviceInfo,
+        tclock_location: `${location.latitude},${location.longitude}`,
+        tclock_location_name: locationName,
+        tclock_photo: photoData,
+      };
+      
+      //console.log('Inserting data:', insertData);
+      const { error } = await supabase.from('tclock_tbl').insert(insertData);
 
-      const { error } = await supabase.from('clock_events').insert({
-        employee_id: employee.id,
-        event_type: eventType,
-        event_time: new Date().toISOString(),
-        source: 'MOBILE_WEB',
-        latitude: location.latitude,
-        longitude: location.longitude,
-        photo_url: photoData,
-        device_info: deviceInfo,
-      });
+      if (error) {
+        console.error('Database error:', error);
+        throw error;
+      }
 
-      if (error) throw error;
-
+      //console.log('Insert successful, fetching events...');
       await fetchLastEvent();
+      await fetchRecentEvents();
       setShowCamera(false);
       setEventType(null);
+      //console.log('handleCapture completed successfully');
     } catch (err: any) {
+      //console.error('handleCapture error:', err);
       setError(err.message || 'Failed to record clock event');
     } finally {
       setLoading(false);
@@ -231,42 +294,50 @@ export function ClockInterface() {
         </button>
       </div>
 
-      {status.lastEvent && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Last Action</h3>
-          <div className="space-y-3">
-            <div>
-              <span className="text-sm text-gray-600">Event:</span>
-              <span className="ml-2 text-sm font-medium text-gray-900">
-                {status.lastEvent.event_type.replace('_', ' ')}
-              </span>
-            </div>
-            <div>
-              <span className="text-sm text-gray-600">Time:</span>
-              <span className="ml-2 text-sm font-medium text-gray-900">
-                {new Date(status.lastEvent.event_time).toLocaleTimeString()}
-              </span>
-            </div>
-            {status.lastEvent.latitude && status.lastEvent.longitude && (
-              <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-gray-600 mt-0.5" />
-                <span className="text-sm text-gray-900">
-                  {status.lastEvent.latitude.toFixed(6)}, {status.lastEvent.longitude.toFixed(6)}
-                </span>
-              </div>
-            )}
-            {status.lastEvent.photo_url && (
-              <div>
-                <img
-                  src={status.lastEvent.photo_url}
-                  alt="Clock event photo"
-                  className="w-full h-48 object-cover rounded-lg"
-                />
-              </div>
-            )}
+      <div className="bg-white rounded-xl shadow-sm p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Clock Events</h3>
+        {recentEvents.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-2 text-gray-600">Event</th>
+                  <th className="text-left py-2 text-gray-600">Date</th>
+                  <th className="text-left py-2 text-gray-600">Time</th>
+                  <th className="text-left py-2 text-gray-600">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentEvents.map((event, index) => (
+                  <tr key={event.tclock_id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                    <td className="py-2">
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        event.tclock_event_type === 'CLOCK_IN' ? 'bg-green-100 text-green-700' :
+                        event.tclock_event_type === 'CLOCK_OUT' ? 'bg-red-100 text-red-700' :
+                        event.tclock_event_type === 'BREAK_IN' ? 'bg-amber-100 text-amber-700' :
+                        'bg-blue-100 text-blue-700'
+                      }`}>
+                        {event.tclock_event_type.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td className="py-2 text-gray-900">
+                      {new Date(event.tclock_event_time).toLocaleDateString()}
+                    </td>
+                    <td className="py-2 text-gray-900">
+                      {new Date(event.tclock_event_time).toLocaleTimeString()}
+                    </td>
+                    <td className="py-2 text-gray-600">
+                      {(event.tclock_location_name || event.tclock_location || '-').substring(0, 40)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
-      )}
+        ) : (
+          <p className="text-gray-500 text-center py-4">No clock events found</p>
+        )}
+      </div>
 
       {showCamera && (
         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">

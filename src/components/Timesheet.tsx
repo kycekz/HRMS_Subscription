@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Calendar, Clock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase, ClockEvent } from '../lib/supabase';
+//import { supabase, ClockEvent } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 type DailyRecord = {
   date: string;
@@ -13,34 +14,37 @@ type DailyRecord = {
 };
 
 export function Timesheet() {
-  const { employee } = useAuth();
+  const { employee, messUser } = useAuth();
   const [records, setRecords] = useState<DailyRecord[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (employee) {
+    if (employee && messUser) {
       fetchTimesheet();
     }
-  }, [employee]);
+  }, [employee, messUser]);
 
   const fetchTimesheet = async () => {
-    if (!employee) return;
+    if (!employee || !messUser) return;
 
     setLoading(true);
     try {
+      //console.log('Fetching timesheet for:', { tentid: messUser.tentid, empid: employee.id });
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - 7);
 
       const { data, error } = await supabase
-        .from('clock_events')
+        .from('ttat_tbl')
         .select('*')
-        .eq('employee_id', employee.id)
-        .gte('event_time', startDate.toISOString())
-        .order('event_time', { ascending: false });
+        .eq('tentid', messUser.tentid)
+        .eq('ttat_empid', employee.id)
+        .gte('ttat_date', startDate.toISOString().split('T')[0])
+        .order('ttat_date', { ascending: false });
 
       if (error) throw error;
 
-      const dailyRecords = processDailyRecords(data || []);
+      //console.log('Timesheet data:', data);
+      const dailyRecords = processAttendanceRecords(data || []);
       setRecords(dailyRecords);
     } catch (err) {
       console.error('Error fetching timesheet:', err);
@@ -49,49 +53,18 @@ export function Timesheet() {
     }
   };
 
-  const processDailyRecords = (events: ClockEvent[]): DailyRecord[] => {
-    const recordsByDate = new Map<string, ClockEvent[]>();
+  const processAttendanceRecords = (records: any[]): DailyRecord[] => {
+    return records.map(record => {
+      const breakMinutes = record.ttat_total_break ? 
+        Math.round(parseInterval(record.ttat_total_break) / 60) : 0;
+      
+      const workHours = record.ttat_work_duration ? 
+        Math.round((parseInterval(record.ttat_work_duration) / 3600) * 100) / 100 : 0;
 
-    events.forEach(event => {
-      const date = event.event_time.split('T')[0];
-      if (!recordsByDate.has(date)) {
-        recordsByDate.set(date, []);
-      }
-      recordsByDate.get(date)!.push(event);
-    });
-
-    const dailyRecords: DailyRecord[] = [];
-
-    recordsByDate.forEach((dayEvents, date) => {
-      const sortedEvents = dayEvents.sort((a, b) =>
-        new Date(a.event_time).getTime() - new Date(b.event_time).getTime()
-      );
-
-      const clockInEvent = sortedEvents.find(e => e.event_type === 'CLOCK_IN');
-      const clockOutEvent = sortedEvents.find(e => e.event_type === 'CLOCK_OUT');
-
-      let breakMinutes = 0;
-      let breakStart: Date | null = null;
-
-      sortedEvents.forEach(event => {
-        if (event.event_type === 'BREAK_IN') {
-          breakStart = new Date(event.event_time);
-        } else if (event.event_type === 'BREAK_OUT' && breakStart) {
-          const breakEnd = new Date(event.event_time);
-          breakMinutes += (breakEnd.getTime() - breakStart.getTime()) / (1000 * 60);
-          breakStart = null;
-        }
-      });
-
-      let workHours = 0;
       let status: DailyRecord['status'] = 'INCOMPLETE';
-
-      if (clockInEvent && clockOutEvent) {
-        const totalMinutes = (new Date(clockOutEvent.event_time).getTime() -
-                            new Date(clockInEvent.event_time).getTime()) / (1000 * 60);
-        workHours = (totalMinutes - breakMinutes) / 60;
-
-        const clockInTime = new Date(clockInEvent.event_time);
+      
+      if (record.ttat_clock_in_time && record.ttat_clock_out_time) {
+        const clockInTime = new Date(record.ttat_clock_in_time);
         const clockInHour = clockInTime.getHours();
         const clockInMinute = clockInTime.getMinutes();
 
@@ -106,17 +79,23 @@ export function Timesheet() {
         }
       }
 
-      dailyRecords.push({
-        date,
-        clockIn: clockInEvent?.event_time || null,
-        clockOut: clockOutEvent?.event_time || null,
-        breakMinutes: Math.round(breakMinutes),
-        workHours: Math.round(workHours * 100) / 100,
+      return {
+        date: record.ttat_date,
+        clockIn: record.ttat_clock_in_time,
+        clockOut: record.ttat_clock_out_time,
+        breakMinutes,
+        workHours,
         status,
-      });
-    });
+      };
+    }).sort((a, b) => b.date.localeCompare(a.date));
+  };
 
-    return dailyRecords.sort((a, b) => b.date.localeCompare(a.date));
+  const parseInterval = (interval: string): number => {
+    if (!interval) return 0;
+    const match = interval.match(/(\d+):(\d+):(\d+)/);
+    if (!match) return 0;
+    const [, hours, minutes, seconds] = match;
+    return parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
   };
 
   const getStatusColor = (status: DailyRecord['status']) => {
