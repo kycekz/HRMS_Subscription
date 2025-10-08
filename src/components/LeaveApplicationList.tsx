@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 //import { useTenantSupabase, LeaveApplication, LeaveType } from '../utils/tenantAwareSupabase';
 import { LeaveApplication, LeaveType } from '../utils/tenantAwareSupabase';
 import { LeaveApplication as LeaveApplicationForm } from './LeaveApplication';
+import { LeaveApplicationDetails } from './LeaveApplicationDetails';
 import { supabase } from '../lib/supabase';
 
 export function LeaveApplicationList() {
@@ -15,6 +16,7 @@ export function LeaveApplicationList() {
   const [leaveBalances, setLeaveBalances] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [selectedApplication, setSelectedApplication] = useState<any>(null);
   const [filter, setFilter] = useState<'ALL' | 'SUBMITTED' | 'APPROVED' | 'REJECTED'>('ALL');
 
   useEffect(() => {
@@ -307,7 +309,11 @@ export function LeaveApplicationList() {
           </div>
         ) : (
           filteredApplications.map((app) => (
-            <div key={app.tlea_letid} className="bg-white rounded-xl shadow-sm p-6">
+            <div 
+              key={app.tlea_letid} 
+              className="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition"
+              onClick={() => setSelectedApplication(app)}
+            >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   {getStatusIcon((app as any).tlea_status)}
@@ -360,6 +366,16 @@ export function LeaveApplicationList() {
       {showForm && (
         <LeaveApplicationForm
           onClose={() => setShowForm(false)}
+          onSuccess={fetchData}
+        />
+      )}
+
+      {/* Leave Application Details Modal */}
+      {selectedApplication && (
+        <LeaveApplicationDetails
+          application={selectedApplication}
+          leaveTypes={leaveTypes}
+          onClose={() => setSelectedApplication(null)}
           onSuccess={fetchData}
         />
       )}
