@@ -329,7 +329,8 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
         <div style={styles.logo} onClick={() => navigate('/')}>
           <img 
             style={styles.logoImg}
-            src="/AmazingCubeFullLogo.png" alt="Amazing Cube"
+            src="AmazingCubeFullLogo.png" // Use relative path for Vercel compatibility
+            alt="Amazing Cube"
           />
         </div>
         <ul style={styles.navLinks}>
@@ -588,7 +589,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
         <div style={styles.footerLogo}>
           <img 
             style={{ width: "180px", height: "auto" }}
-            src="/AmazingCubeFullLogo.png"
+            src="AmazingCubeFullLogo.png" // Use relative path for Vercel compatibility
             alt="Amazing Cube"
           />
         </div>
