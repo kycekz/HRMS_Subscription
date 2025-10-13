@@ -436,7 +436,7 @@ const SubscriptionSignup = () => {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/')}>
               {/*
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-sm">H</span>
@@ -492,6 +492,7 @@ const SubscriptionSignup = () => {
             <div className="text-center mb-8">
               <h1 className="text-3xl font-light text-gray-900 mb-2">Choose Your Plan</h1>
               <p className="text-gray-600">Select the perfect plan for your business needs</p>
+              <p className="text-gray-600">Use first, decide whether to pay later</p>
             </div>
 
             {/* Billing Toggle */}
