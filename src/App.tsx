@@ -2,6 +2,8 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import SubscriptionSignup from './pages/Public/Subscription';
 import SubscriptionComplete from './pages/Public/SubscriptionComplete';
 import LandingPage from './pages/Public/LandingPage';
+import TermsOfService from './pages/Public/TermsOfService';
+import PrivacyPolicy from './pages/Public/PrivacyPolicy';
 import mainHtml from './pages/Public/Main.html?raw';
 import Maintsx from './pages/Public/Maintsx';
 import Wip from './pages/Public/wip';
@@ -27,6 +29,8 @@ function App() {
           paymentInfo={location.state?.paymentInfo}
         />
       } />
+      <Route path="/terms-of-service" element={<TermsOfService />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
     </Routes>
   );
 }

@@ -12,12 +12,12 @@ const SubscriptionComplete = ({ subscriptionInfo, paymentInfo }) => {
 
         <div className="mb-6">
           <h2 className="text-lg font-semibold mb-2">Application Login URL</h2>
-          <a href="https://hrms-ess.vercel.app" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-lg">hrms-ess.vercel.app</a>
+          <a href="https://hrms.amazingcube.com.my" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-lg">Amaze HRMS</a>
         </div>
 
         <div className="mb-6 flex flex-col items-center">
           <h2 className="text-lg font-semibold mb-2">Scan to Login</h2>
-          <QRCode value="https://hrms-ess.vercel.app" size={128} />
+          <QRCode value="https://hrms.amazingcube.com.my" size={128} />
         </div>
 
         <div className="mb-6 text-left">

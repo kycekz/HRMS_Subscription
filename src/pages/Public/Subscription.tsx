@@ -344,6 +344,31 @@ const SubscriptionSignup = () => {
         console.error('Tenant creation error:', tenantError);
         throw new Error('Failed to create company account: ' + tenantError.message);
       }
+
+      // Create first organization record
+      const { data: orgData, error: orgError } = await client
+        .from('morg_tbl')
+        .insert({
+          tenant_id: tenantData.mtent_tentid,
+          orgcd: 'ORG001',
+          orgname: formData.companyRegistrationName || formData.companyName,
+          dispname: formData.companyName,
+          regnum: formData.phone,
+          bizregnum: formData.phone,
+          incorpdt: new Date().toISOString().split('T')[0],
+          biztype: 'private_limited',
+          indtype: '',
+          orglvl: 0,
+          status: 'active',
+          empcount: 0
+        })
+        .select('org_id')
+        .single();
+      
+      if (orgError) {
+        console.error('Organization creation error:', orgError);
+        throw new Error('Failed to create organization: ' + orgError.message);
+      }
       
       // Create admin user record and return id
       const { data: userInsertData, error: userError } = await client
@@ -871,7 +896,7 @@ const SubscriptionSignup = () => {
                   />
                   <label className="ml-3 text-sm text-gray-700">
                     I agree to the{' '}
-                    <a href="#" className="text-blue-600 hover:underline">Terms of Service</a>
+                    <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Terms of Service</a>
                     {' '}*
                   </label>
                 </div>
@@ -886,7 +911,7 @@ const SubscriptionSignup = () => {
                   />
                   <label className="ml-3 text-sm text-gray-700">
                     I agree to the{' '}
-                    <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
+                    <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Privacy Policy</a>
                     {' '}*
                   </label>
                 </div>
