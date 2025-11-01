@@ -409,7 +409,8 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
             }}>
               <div 
                 style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/login-business'); }}
+                //onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/login-business'); }}
+                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://hrms.amazingcube.com.my', '_blank'); }}
                 onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
               >
@@ -417,7 +418,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
               </div>
               <div 
                 style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://hrms-ess.vercel.app', '_blank'); }}
+                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://ess.amazingcube.com.my', '_blank'); }}
                 onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
               >
