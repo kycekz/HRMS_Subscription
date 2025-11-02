@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 interface HomepageProps {
   onNavigate?: (path: string) => void;
 }
@@ -36,6 +37,8 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
       handleNavigate('/ai-chatbot');
     } else if (solution === 'Analytic Solution') {
       handleNavigate('/ai-chatbot');
+    } else if (solution === 'Learning & Development') {
+      handleNavigate('/learning');
     }
   };
 
@@ -365,6 +368,14 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
                 onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
               >
                 Analytic Solution
+              </div>
+              <div 
+                style={styles.dropdownItem}
+                onClick={() => { setIsDropdownOpen(false); handleNavigate('/learning'); }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+              >
+                Learning & Development
               </div>
             </div>
           </li>

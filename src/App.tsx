@@ -7,6 +7,9 @@ import PrivacyPolicy from './pages/Public/PrivacyPolicy';
 import mainHtml from './pages/Public/Main.html?raw';
 import Maintsx from './pages/Public/Maintsx';
 import Wip from './pages/Public/wip';
+import Learning from './pages/Public/LND_reference';
+import ContactUs from './pages/Public/ContactUs';
+
 
 function MainPage() {
   return <div dangerouslySetInnerHTML={{ __html: mainHtml }} />;
@@ -22,6 +25,7 @@ function App() {
       <Route path="/mainpage" element={<MainPage />} />
       <Route path="/maintsx" element={<Maintsx />} />
       <Route path="/wip" element={<Wip />} />
+      <Route path="/learning" element={<Learning/>} />
       <Route path="/subscription" element={<SubscriptionSignup />} />
       <Route path="/subscription-complete" element={
         <SubscriptionComplete 
@@ -31,6 +35,7 @@ function App() {
       } />
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/contact" element={<ContactUs />} />
     </Routes>
   );
 }

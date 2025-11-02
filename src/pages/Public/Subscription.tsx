@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Check, X, Eye, EyeOff, Building, User, Mail, Phone, MapPin, CreditCard, Shield, Clock } from 'lucide-react';
-//import { supabase, supabaseAdmin } from '../../AuthContext;
+//import { supabase, supabaseAdmin } from '../../AuthContext';
 import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 
@@ -92,7 +92,12 @@ const featureDescriptions: Record<string, string> = {
   free: 'Convert to free plan *T&C apply'
 };
 
-const SubscriptionSignup = () => {
+const SubscriptionSignup: React.FC = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpenLogin, setIsDropdownOpenLogin] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedPlan, setSelectedPlan] = useState('basic');
   const [billingCycle, setBillingCycle] = useState('monthly');
@@ -125,7 +130,124 @@ const SubscriptionSignup = () => {
     agreePrivacy: false
   });
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  };
+
+  const handleSolutionClick = (solution: string) => {
+    setIsDropdownOpen(false);
+    if (solution === 'HRMS') {
+      handleNavigate('/subscription');
+    } else if (solution === 'AI Chatbot') {
+      handleNavigate('/ai-chatbot');
+    } else if (solution === 'Analytic Solution') {
+      handleNavigate('/ai-chatbot');
+    } else if (solution === 'Learning & Development') {
+      handleNavigate('/learning');
+    }
+  };
+
+  const smoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
+    e.preventDefault();
+    const element = document.querySelector(target);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const styles = {
+    nav: {
+      position: 'fixed' as const,
+      top: 0,
+      width: '100%',
+      padding: '1.5rem 5%',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      background: 'rgba(255, 255, 255, 0.95)',
+      backdropFilter: 'blur(10px)',
+      zIndex: 1000,
+      borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
+      boxShadow: scrolled ? '0 2px 20px rgba(0, 0, 0, 0.08)' : '0 2px 10px rgba(0, 0, 0, 0.03)',
+      transition: 'box-shadow 0.3s',
+    },
+    logo: {
+      display: 'flex',
+      alignItems: 'center',
+      height: '50px',
+      cursor: 'pointer',
+    },
+    logoImg: {
+      height: '50px',
+      width: 'auto',
+    },
+    navLinks: {
+      display: 'flex',
+      gap: '2.5rem',
+      alignItems: 'center',
+      listStyle: 'none',
+      margin: 0,
+      padding: 0,
+    },
+    navItem: {
+      color: '#1a1a1a',
+      textDecoration: 'none',
+      fontWeight: 500,
+      cursor: 'pointer',
+      transition: 'color 0.3s',
+    },
+    dropdown: {
+      position: 'relative' as const,
+    },
+    dropdownToggle: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      color: '#1a1a1a',
+      fontWeight: 500,
+      cursor: 'pointer',
+    },
+    dropdownMenu: {
+      position: 'absolute' as const,
+      top: '100%',
+      left: 0,
+      marginTop: '1rem',
+      background: 'white',
+      border: '1px solid rgba(0, 0, 0, 0.08)',
+      borderRadius: '12px',
+      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
+      minWidth: '200px',
+      opacity: isDropdownOpen ? 1 : 0,
+      visibility: isDropdownOpen ? 'visible' as const : 'hidden' as const,
+      transform: isDropdownOpen ? 'translateY(0)' : 'translateY(-10px)',
+      transition: 'all 0.3s',
+    },
+    dropdownItem: {
+      padding: '1rem 1.5rem',
+      cursor: 'pointer',
+      transition: 'background 0.2s',
+    },
+    btnLogin: {
+      padding: '0.6rem 1.8rem',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      color: 'white',
+      border: 'none',
+      borderRadius: '25px',
+      fontWeight: 600,
+      cursor: 'pointer',
+      transition: 'all 0.3s',
+      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
+    },
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -456,41 +578,129 @@ const SubscriptionSignup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/')}>
-              {/*
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">H</span>
-              </div>
-              */}
-                <img
-                  src="/AmazeCubeLogo.png"                   // Path relative to /public folder
-                  alt="Amaze HRMS Logo"
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              <span className="text-xl font-semibold text-gray-900">Amaze HRMS</span>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-xl text-gray-500">
-                <span className={currentStep >= 1 ? 'text-blue-600 font-medium' : ''}>Plan</span>
-                <span>→</span>
-                <span className={currentStep >= 2 ? 'text-blue-600 font-medium' : ''}>Company</span>
-                <span>→</span>
-                <span className={currentStep >= 3 ? 'text-blue-600 font-medium' : ''}>Admin</span>
-                <span>→</span>
-                <span className={currentStep >= 4 ? 'text-blue-600 font-medium' : ''}>Complete</span>
-              </div>
-            </div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      {/* Navigation */}
+      <nav style={styles.nav}>
+        <div style={styles.logo} onClick={() => navigate('/')}>
+          <img 
+            style={styles.logoImg}
+            src="AmazingCubeFullLogo.png"
+            alt="Amazing Cube"
+          />
         </div>
-      </div>
+        <ul style={styles.navLinks}>
+          <li style={styles.dropdown}>
+            <div 
+              style={styles.dropdownToggle}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              Solutions <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
+            </div>
+            <div style={styles.dropdownMenu}>
+              <div 
+                style={styles.dropdownItem}
+                onClick={() => handleSolutionClick('HRMS')}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+              >
+                HRMS
+              </div>
+              <div 
+                style={styles.dropdownItem}
+                onClick={() => { setIsDropdownOpen(false); handleNavigate('/wip'); }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+              >
+                CRM AI Chatbot
+              </div>
+              <div 
+                style={styles.dropdownItem}
+                onClick={() => { setIsDropdownOpen(false); handleNavigate('/wip'); }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+              >
+                Analytic Solution
+              </div>
+              <div 
+                style={styles.dropdownItem}
+                onClick={() => { setIsDropdownOpen(false); handleNavigate('/learning'); }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+              >
+                Learning & Development
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="#features" style={styles.navItem} onClick={(e) => smoothScroll(e, '#features')}>
+              Features
+            </a>
+          </li>
+          <li>
+            <a href="#about" style={styles.navItem}>
+              About
+            </a>
+          </li>
+          <li>
+            <a href="#contact" style={styles.navItem} onClick={(e) => smoothScroll(e, '#contact')}>
+              Contact
+            </a>
+          </li>
+          <li style={styles.dropdown}>
+            <div 
+              style={{ ...styles.btnLogin, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              onClick={() => setIsDropdownOpenLogin(!isDropdownOpenLogin)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+              }}
+            >
+              Login <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
+            </div>
+            <div style={{
+              ...styles.dropdownMenu,
+              minWidth: '160px',
+              marginTop: '0.5rem',
+              left: 0,
+              opacity: isDropdownOpenLogin ? 1 : 0,
+              visibility: isDropdownOpenLogin ? 'visible' : 'hidden',
+              transform: isDropdownOpenLogin ? 'translateY(0)' : 'translateY(-10px)',
+            }}>
+              <div 
+                style={styles.dropdownItem}
+                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://hrms.amazingcube.com.my', '_blank'); }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+              >
+                Business
+              </div>
+              <div 
+                style={styles.dropdownItem}
+                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://ess.amazingcube.com.my', '_blank'); }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+              >
+                Employee
+              </div>
+              <div 
+                style={styles.dropdownItem}
+                onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/login-community'); }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+              >
+                Community
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
 
-      <div className="w-full max-w-7xl mx-auto px-2 py-8">
+      {/* Add padding to account for fixed navigation */}
+      <div className="pt-20">
         {/* Success Message */}
         {success && (
           <div className="mb-8 p-4 bg-green-50 border border-green-200 rounded-lg">
@@ -513,7 +723,7 @@ const SubscriptionSignup = () => {
 
         {/* Step 1: Plan Selection */}
         {currentStep === 1 && (
-          <div>
+          <div className="pt-24">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-light text-gray-900 mb-2">Choose Your Plan</h1>
               <p className="text-gray-600">Select the perfect plan for your business needs</p>
@@ -547,68 +757,70 @@ const SubscriptionSignup = () => {
             </div>
 
             {/* Plans Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {Object.values(plans).map((plan) => (
-                <div
-                  key={plan.id}
-                  className={`relative bg-white rounded-lg border-2 p-8 w-full cursor-pointer transition-all h-[40rem] flex flex-col justify-between ${
-                    selectedPlan === plan.id
-                      ? 'border-blue-500 ring-2 ring-blue-200'
-                      : 'border-gray-200 hover:border-gray-300'
-                  } ${plan.popular ? 'ring-2 ring-blue-100' : ''}`}
-                  onClick={() => setSelectedPlan(plan.id)}
-                  style={{ minWidth: '0' }}
-                >
-                  {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-                      <span className="bg-blue-500 text-white text-xs font-medium px-4 py-1 rounded-full">
-                        Most Popular
-                      </span>
-                    </div>
-                  )}
-                  
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{plan.displayName}</h3>
-                    <p className="text-sm text-gray-500 mb-4">{plan.description}</p>
-                    
-                    <div className="mb-4">
-                      <span className="text-3xl font-bold text-gray-900">
-                        RM{getCurrentPrice(plan)}
-                      </span>
-                      {!plan.trialOnly && (
-                        <span className="text-gray-500 text-sm">
-                          /{billingCycle === 'monthly' ? 'month' : 'year'}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {Object.values(plans).map((plan) => (
+                  <div
+                    key={plan.id}
+                    className={`relative bg-white rounded-lg border-2 p-8 w-full cursor-pointer transition-all h-[40rem] flex flex-col justify-between ${
+                      selectedPlan === plan.id
+                        ? 'border-blue-500 ring-2 ring-blue-200'
+                        : 'border-gray-200 hover:border-gray-300'
+                    } ${plan.popular ? 'ring-2 ring-blue-100' : ''}`}
+                    onClick={() => setSelectedPlan(plan.id)}
+                    style={{ minWidth: '0' }}
+                  >
+                    {plan.popular && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                        <span className="bg-blue-500 text-white text-xs font-medium px-4 py-1 rounded-full">
+                          Most Popular
                         </span>
-                      )}
-                      {getSavings(plan) > 0 && (
-                        <div className="text-green-600 text-xs mt-1">
-                          Save RM{getSavings(plan)} yearly
-                        </div>
-                      )}
-                    </div>
+                      </div>
+                    )}
                     
-                    <div className="text-sm text-gray-600 mb-4">
-                      Up to {plan.maxEmployees === 9999 ? 'Unlimited' : plan.maxEmployees} employees
-                    </div>
-                    
-                    <div className="space-y-4 text-left">
-                      {plan.features.slice(0, 10).map((feature, index) => (
-                        <div key={index} className="flex items-center text-sm">
-                          <Check className="h-5 w-4 text-green-500 mr-2 flex-shrink-0" />
-                          <span className="text-gray-600">
-                            {featureDescriptions[feature] || feature}
+                    <div className="text-center">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{plan.displayName}</h3>
+                      <p className="text-sm text-gray-500 mb-4">{plan.description}</p>
+                      
+                      <div className="mb-4">
+                        <span className="text-3xl font-bold text-gray-900">
+                          RM{getCurrentPrice(plan)}
+                        </span>
+                        {!plan.trialOnly && (
+                          <span className="text-gray-500 text-sm">
+                            /{billingCycle === 'monthly' ? 'month' : 'year'}
                           </span>
-                        </div>
-                      ))}
-                      {plan.features.length > 10 && (
-                        <div className="text-sm text-blue-600">
-                          +{plan.features.length - 10} more features
-                        </div>
-                      )}
+                        )}
+                        {getSavings(plan) > 0 && (
+                          <div className="text-green-600 text-xs mt-1">
+                            Save RM{getSavings(plan)} yearly
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="text-sm text-gray-600 mb-4">
+                        Up to {plan.maxEmployees === 9999 ? 'Unlimited' : plan.maxEmployees} employees
+                      </div>
+                      
+                      <div className="space-y-4 text-left">
+                        {plan.features.slice(0, 10).map((feature, index) => (
+                          <div key={index} className="flex items-center text-sm">
+                            <Check className="h-5 w-4 text-green-500 mr-2 flex-shrink-0" />
+                            <span className="text-gray-600">
+                              {featureDescriptions[feature] || feature}
+                            </span>
+                          </div>
+                        ))}
+                        {plan.features.length > 10 && (
+                          <div className="text-sm text-blue-600">
+                            +{plan.features.length - 10} more features
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             <div className="flex justify-end">
@@ -649,7 +861,6 @@ const SubscriptionSignup = () => {
                   </div>
                 </div>
 
-                {/*
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Subdomain *
@@ -669,7 +880,6 @@ const SubscriptionSignup = () => {
                   </div>
                   <p className="text-xs text-gray-500 mt-1">This will be your login URL</p>
                 </div>
-                */}
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
