@@ -256,7 +256,21 @@ const iconMap = {
 };
 
 
-const CourseCard = ({ course }) => {
+interface Course {
+  category: string;
+  title: string;
+  duration: string;
+  level: string;
+  hrdcClaimable: boolean;
+  description: string;
+  highlights: string[];
+}
+
+interface CourseCardProps {
+  course: Course;
+}
+
+const CourseCard: React.FC<CourseCardProps> = React.memo(({ course }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -317,7 +331,7 @@ const CourseCard = ({ course }) => {
       </div>
     </div>
   );
-};
+});
 
 const LearningDevelopmentPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -695,8 +709,8 @@ const LearningDevelopmentPage = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {searchFilteredCourses.map((course, idx) => (
-                <CourseCard key={idx} course={course} />
+              {searchFilteredCourses.map((course) => (
+                <CourseCard key={course.title} course={course} />
               ))}
             </div>
           </div>

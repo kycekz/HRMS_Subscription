@@ -1,9 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
+import { createWebsiteClient } from './supabaseManager';
 
-const supabasewebsiteUrl = import.meta.env.VITE_SUPABASE_WEBSITE_URL;
-const supabasewebsiteAnonKey = import.meta.env.VITE_SUPABASE_WEBSITE_ANON_KEY;
-
-export const supabasewebsite = createClient(supabasewebsiteUrl, supabasewebsiteAnonKey);
+export const supabasewebsite = createWebsiteClient();
 
 export type Message = {
   id: string;
