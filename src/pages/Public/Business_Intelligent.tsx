@@ -5,6 +5,15 @@ interface BISolutionProps {
   onNavigate?: (path: string) => void;
 }
 
+ const styles = {
+    navItem: {
+      color: '#1a1a1a',
+      textDecoration: 'none',
+      fontWeight: 500,
+      cursor: 'pointer',
+      transition: 'color 0.3s',
+    },
+}
 // AI Features Component
 const AIFeaturesSection: React.FC = () => (
   <section style={{
@@ -724,7 +733,7 @@ const BISolution: React.FC<BISolutionProps> = ({ onNavigate }) => {
             </a>
           </li>
           <li>
-            <a href="#contact" style={navStyles.navItem}>
+            <a style={styles.navItem} onClick={() => handleNavigate('/contact')}>
               Contact
             </a>
           </li>

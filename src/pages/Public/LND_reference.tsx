@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 // ============================================
 
 // Course Categories Configuration
-const courseCategories = [
+const courseCategories = Object.freeze([
   {
     id: 'technical',
     name: 'Technical Skills',
@@ -37,10 +37,10 @@ const courseCategories = [
     color: 'from-blue-600 to-blue-500',
     description: 'Build core professional competencies'
   }
-];
+]);
 
 // Courses Configuration
-const courses = [
+const courses = Object.freeze([
   // Technical Skills
   {
     category: 'technical',
@@ -242,19 +242,18 @@ const courses = [
     ]
   }
 
-];
+]);
 
 // ============================================
 // END OF CONFIGURATION SECTION
 // ============================================
 
-const iconMap = {
+const iconMap: Record<string, LucideIcon> = {
   BookOpen,
   Users,
   Brain,
   TrendingUp
 };
-
 
 interface Course {
   category: string;
@@ -342,30 +341,37 @@ const LearningDevelopmentPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 100);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = useCallback((path: string) => {
     navigate(path);
-  };
+  }, [navigate]);
 
-  const handleSolutionClick = (solution: string) => {
+  const handleSolutionClick = useCallback((solution: string) => {
     setIsDropdownOpen(false);
     if (solution === 'HRMS') {
       handleNavigate('/subscription');
     } else if (solution === 'AI Chatbot') {
       handleNavigate('/ai-chatbot');
     } else if (solution === 'Analytic Solution') {
-      handleNavigate('/Busienss_Intelligent');
+      handleNavigate('/Business_Intelligent');
     } else if (solution === 'Learning & Development') {
       handleNavigate('/learning');
     }
-  };
+  }, [handleNavigate]);
 
   const styles = {
     nav: {
@@ -452,16 +458,20 @@ const LearningDevelopmentPage = () => {
     },
   };
 
-  const filteredCourses = activeCategory === 'all' 
-    ? courses 
-    : courses.filter(course => course.category === activeCategory);
-
-  // Further filter by search term
-  const searchFilteredCourses = filteredCourses.filter(course => 
-    course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.highlights.some(highlight => highlight.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const searchFilteredCourses = useMemo(() => {
+    const filtered = activeCategory === 'all' 
+      ? courses 
+      : courses.filter(course => course.category === activeCategory);
+    
+    if (!searchTerm) return filtered;
+    
+    const searchLower = searchTerm.toLowerCase();
+    return filtered.filter(course => 
+      course.title.toLowerCase().includes(searchLower) ||
+      course.description.toLowerCase().includes(searchLower) ||
+      course.highlights.some(highlight => highlight.toLowerCase().includes(searchLower))
+    );
+  }, [activeCategory, searchTerm]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-50">

@@ -642,7 +642,7 @@ const SubscriptionSignup: React.FC = () => {
             </a>
           </li>
           <li>
-            <a href="#contact" style={styles.navItem} onClick={(e) => smoothScroll(e, '#contact')}>
+            <a style={styles.navItem} onClick={() => handleNavigate('/contact')}>
               Contact
             </a>
           </li>
@@ -836,13 +836,13 @@ const SubscriptionSignup: React.FC = () => {
 
         {/* Step 2: Company Information */}
         {currentStep === 2 && (
-          <div>
+          <div className="pt-24">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-light text-gray-900 mb-2">Company Information</h1>
               <p className="text-gray-600">Tell us about your company</p>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm p-8">
+            <div className="bg-white rounded-lg shadow-sm p-8 max-w-4xl mx-auto">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1325,7 +1325,7 @@ const SubscriptionSignup: React.FC = () => {
           </div>
           
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>&copy; 2024 Malaysian HRMS. All rights reserved. Made with ❤️ in Malaysia.</p>
+            <p>&copy; 2025 Amazing Cube Sdn Bhd. All rights reserved.</p>
           </div>
         </div>
       </div>
