@@ -150,7 +150,7 @@ const SubscriptionSignup: React.FC = () => {
     } else if (solution === 'AI Chatbot') {
       handleNavigate('/ai-chatbot');
     } else if (solution === 'Analytic Solution') {
-      handleNavigate('/ai-chatbot');
+      handleNavigate('/Business_Intelligent');
     } else if (solution === 'Learning & Development') {
       handleNavigate('/learning');
     }
@@ -615,7 +615,7 @@ const SubscriptionSignup: React.FC = () => {
               </div>
               <div 
                 style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/wip'); }}
+                onClick={() => { setIsDropdownOpen(false); handleNavigate('/Business_Intelligent'); }}
                 onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
               >
@@ -823,7 +823,7 @@ const SubscriptionSignup: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-center">
               <button
                 onClick={handleNext}
                 className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
@@ -974,7 +974,7 @@ const SubscriptionSignup: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-between mt-8">
+            <div className="flex justify-center mt-8 space-x-10">
               <button
                 onClick={handleBack}
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"

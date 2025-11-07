@@ -7,6 +7,7 @@ import PrivacyPolicy from './pages/Public/PrivacyPolicy';
 import mainHtml from './pages/Public/Main.html?raw';
 import Maintsx from './pages/Public/Maintsx';
 import Wip from './pages/Public/wip';
+import BIsolution from './pages/Public/Business_Intelligent.tsx';
 import Learning from './pages/Public/LND_reference';
 import ContactUs from './pages/Public/ContactUs';
 
@@ -25,6 +26,7 @@ function App() {
       <Route path="/mainpage" element={<MainPage />} />
       <Route path="/maintsx" element={<Maintsx />} />
       <Route path="/wip" element={<Wip />} />
+      <Route path="/Business_Intelligent" element={<BIsolution />} />
       <Route path="/learning" element={<Learning/>} />
       <Route path="/subscription" element={<SubscriptionSignup />} />
       <Route path="/subscription-complete" element={

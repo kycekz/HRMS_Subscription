@@ -36,7 +36,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
     } else if (solution === 'AI Chatbot') {
       handleNavigate('/ai-chatbot');
     } else if (solution === 'Analytic Solution') {
-      handleNavigate('/ai-chatbot');
+      handleNavigate('/Business_Intelligent');
     } else if (solution === 'Learning & Development') {
       handleNavigate('/learning');
     }
@@ -363,7 +363,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
               </div>
               <div 
                 style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/wip'); }}
+                onClick={() => { setIsDropdownOpen(false); handleNavigate('/Business_Intelligent'); }}
                 onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
               >
@@ -489,6 +489,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
             Empower your enterprise with cutting-edge AI systems that automate workflows, 
             enhance decision-making, and drive unprecedented growth.
           </p>
+{/*}
           <div style={styles.ctaButtons}>
             <button 
               style={styles.btnPrimary} 
@@ -519,6 +520,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
               Watch Demo
             </button>
           </div>
+*/}
         </div>
       </section>
 
@@ -587,7 +589,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
           operations and accelerate growth.
         </p>
         <div style={styles.ctaButtons}>
-          <button style={styles.btnPrimary} onClick={() => handleNavigate('/demo')}>
+          <button style={styles.btnPrimary} onClick={() => handleNavigate('/contact')}>
             Schedule a Demo
           </button>
           <button style={styles.btnSecondary} onClick={() => handleNavigate('/contact')}>

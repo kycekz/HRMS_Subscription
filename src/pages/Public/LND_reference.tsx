@@ -361,7 +361,7 @@ const LearningDevelopmentPage = () => {
     } else if (solution === 'AI Chatbot') {
       handleNavigate('/ai-chatbot');
     } else if (solution === 'Analytic Solution') {
-      handleNavigate('/ai-chatbot');
+      handleNavigate('/Busienss_Intelligent');
     } else if (solution === 'Learning & Development') {
       handleNavigate('/learning');
     }
@@ -501,7 +501,7 @@ const LearningDevelopmentPage = () => {
               </div>
               <div 
                 style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/wip'); }}
+                onClick={() => { setIsDropdownOpen(false); handleNavigate('/Business_Intelligent'); }}
                 onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
               >
