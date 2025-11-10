@@ -380,8 +380,8 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
             </div>
           </li>
           <li>
-            <a href="#features" style={styles.navItem} onClick={(e) => smoothScroll(e, '#features')}>
-              Features
+            <a style={styles.navItem} onClick={() => handleNavigate('/community')}>
+              Community
             </a>
           </li>
           <li>
@@ -437,7 +437,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
               </div>
               <div 
                 style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/login-community'); }}
+                onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/community_login'); }}
                 onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
               >

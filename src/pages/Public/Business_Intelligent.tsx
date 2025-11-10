@@ -723,8 +723,8 @@ const BISolution: React.FC<BISolutionProps> = ({ onNavigate }) => {
             </div>
           </li>
           <li>
-            <a href="/#features" style={navStyles.navItem}>
-              Features
+            <a style={styles.navItem} onClick={() => handleNavigate('/community')}>
+              Community
             </a>
           </li>
           <li>

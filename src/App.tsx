@@ -10,6 +10,8 @@ import Wip from './pages/Public/wip';
 import BIsolution from './pages/Public/Business_Intelligent.tsx';
 import Learning from './pages/Public/LND_reference';
 import ContactUs from './pages/Public/ContactUs';
+import Community from './pages/Public/community';
+import CommunityLogin from './pages/Public/community_login';
 
 
 function MainPage() {
@@ -38,6 +40,8 @@ function App() {
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/contact" element={<ContactUs />} />
+      <Route path="/community" element={<Community />} />
+      <Route path="/community_login" element={<CommunityLogin />} />
     </Routes>
   );
 }

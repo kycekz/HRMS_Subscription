@@ -528,8 +528,8 @@ const LearningDevelopmentPage = () => {
             </div>
           </li>
           <li>
-            <a style={styles.navItem} onClick={() => handleNavigate('/#features')}>
-              Features
+            <a style={styles.navItem} onClick={() => handleNavigate('/community')}>
+              Community
             </a>
           </li>
           <li>

@@ -632,8 +632,8 @@ const SubscriptionSignup: React.FC = () => {
             </div>
           </li>
           <li>
-            <a href="#features" style={styles.navItem} onClick={(e) => smoothScroll(e, '#features')}>
-              Features
+            <a style={styles.navItem} onClick={() => handleNavigate('/community')}>
+              Community
             </a>
           </li>
           <li>
