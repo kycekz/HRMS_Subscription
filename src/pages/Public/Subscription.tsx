@@ -473,13 +473,13 @@ const SubscriptionSignup: React.FC = () => {
         .insert({
           tenant_id: tenantData.mtent_tentid,
           orgcd: 'ORG001',
-          orgname: formData.companyRegistrationName || formData.companyName,
+          orgname: formData.companyName,
           dispname: formData.companyName,
-          regnum: formData.phone,
-          bizregnum: formData.phone,
+          regnum: formData.companyRegistrationName,
+          bizregnum: formData.companyRegistrationName,
           incorpdt: new Date().toISOString().split('T')[0],
           biztype: 'private_limited',
-          indtype: '',
+          indtype: formData.phone,
           orglvl: 0,
           status: 'active',
           empcount: 0
