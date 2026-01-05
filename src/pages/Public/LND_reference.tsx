@@ -405,7 +405,7 @@ const LearningDevelopmentPage = () => {
             Empowering organizations through world-class corporate training programs designed for the modern workforce
           </p>
           
-          {/* HRDC Banner - With Images */}
+          {/* HRDC Banner - CSS Background Images */}
           <div style={{
             backgroundColor: '#fff3cd',
             border: '1px solid #ffc107',
@@ -414,23 +414,25 @@ const LearningDevelopmentPage = () => {
             textAlign: 'center'
           }}>
             <div style={{ marginBottom: '10px' }}>
-              <img 
-                src="hrd_claimable.png" 
-                alt="HRDC Claimable" 
-                style={{ 
-                  height: '50px', 
-                  width: '50px',
-                  marginRight: '10px'
-                }}
-              />
-              <img 
-                src="hrd_tp.png" 
-                alt="HRDC Training Provider" 
-                style={{ 
-                  height: '50px', 
-                  width: '50px'
-                }}
-              />
+              <div style={{
+                display: 'inline-block',
+                width: '50px',
+                height: '50px',
+                backgroundImage: 'url(hrd_claimable.png)',
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                marginRight: '10px'
+              }}></div>
+              <div style={{
+                display: 'inline-block',
+                width: '50px',
+                height: '50px',
+                backgroundImage: 'url(hrd_tp.png)',
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center'
+              }}></div>
             </div>
             <h3 style={{
               color: '#856404',

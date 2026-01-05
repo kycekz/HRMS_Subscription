@@ -1,0 +1,28 @@
+// Fallback HRDC banner with emoji icons (if images keep crashing)
+
+{/* HRDC Banner - Emoji Fallback */}
+<div style={{
+  backgroundColor: '#fff3cd',
+  border: '1px solid #ffc107',
+  padding: '15px',
+  marginBottom: '30px',
+  textAlign: 'center'
+}}>
+  <div style={{ marginBottom: '10px', fontSize: '2rem' }}>
+    🏆 📋
+  </div>
+  <h3 style={{
+    color: '#856404',
+    margin: '0 0 10px 0',
+    fontSize: '1.2rem'
+  }}>
+    HRDC Certified Training Provider
+  </h3>
+  <p style={{
+    color: '#856404',
+    margin: '0',
+    fontSize: '0.9rem'
+  }}>
+    All eligible courses are claimable under HRD Corp scheme.
+  </p>
+</div>
