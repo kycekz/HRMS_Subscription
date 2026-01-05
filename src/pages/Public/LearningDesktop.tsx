@@ -388,11 +388,51 @@ const LearningDesktop = () => {
           <h1 style={{ 
             fontSize: isMobile ? '2rem' : '3rem', 
             textAlign: 'center', 
-            marginBottom: '2rem',
+            marginBottom: '1rem',
             color: '#1a1a1a'
           }}>
             Learning & Development
           </h1>
+          <p style={{
+            textAlign: 'center',
+            color: '#5a5a6a',
+            fontSize: isMobile ? '1rem' : '1.25rem',
+            marginBottom: '3rem',
+            maxWidth: '800px',
+            margin: '0 auto 3rem'
+          }}>
+            Empowering organizations through world-class corporate training programs designed for the modern workforce
+          </p>
+
+          {/* HRDC Certification Banner */}
+          <div className="bg-gradient-to-r from-orange-50 to-red-50 border-y border-orange-200">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-6">
+                  <div className="flex gap-4">
+                    <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center border-2 border-orange-300">
+                      <img src="hrd_claimable.png" alt="HRDC Claimable" className="h-16 w-16 object-contain" />
+                    </div>
+                    <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-red-100 to-orange-100 flex items-center justify-center border-2 border-red-300">
+                      <img src="hrd_tp.png" alt="HRDC Training Provider" className="h-16 w-16 object-contain" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">HRDC Certified Training Provider</h3>
+                    <p className="text-gray-700">All our eligible courses are claimable under the HRD Corp scheme, helping you maximize your training investment.</p>
+                  </div>
+                </div>
+                <a 
+                  href="https://hrdcorp.gov.my/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-xl transition-all duration-300 whitespace-nowrap hover:from-orange-600 hover:to-red-600"
+                >
+                  Learn More About HRDC
+                </a>
+              </div>
+            </div>
+          </div>
           
           <div style={{ marginBottom: '2rem' }}>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
