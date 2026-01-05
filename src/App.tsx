@@ -8,7 +8,7 @@ import mainHtml from './pages/Public/Main.html?raw';
 import Maintsx from './pages/Public/Maintsx';
 import Wip from './pages/Public/wip';
 import BIsolution from './pages/Public/Business_Intelligent.tsx';
-import Learning from './pages/Public/LND_reference';
+import Learning from './pages/Public/LearningMain';
 import ContactUs from './pages/Public/ContactUs';
 import Community from './pages/Public/community';
 import CommunityLogin from './pages/Public/community_login';
