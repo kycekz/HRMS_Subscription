@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {supabasewebsite} from '../../lib/supabasewebsite';
+import Navigation from '../../components/Navigation';
 
 
 // Example usage:
@@ -8,9 +9,6 @@ import {supabasewebsite} from '../../lib/supabasewebsite';
 
 
 const ContactUs = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropdownOpenLogin, setIsDropdownOpenLogin] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,118 +20,11 @@ const ContactUs = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [scrolled, setScrolled] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
-    };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavigate = (path: string) => {
-    navigate(path);
-  };
-
-  const handleSolutionClick = (solution: string) => {
-    setIsDropdownOpen(false);
-    if (solution === 'HRMS') {
-      handleNavigate('/subscription');
-    } else if (solution === 'AI Chatbot') {
-      handleNavigate('/ai-chatbot');
-    } else if (solution === 'Analytic Solution') {
-      handleNavigate('/Business_Intelligent');
-    } else if (solution === 'Learning & Development') {
-      handleNavigate('/learning');
-    }
-  };
-
-  const styles = {
-    nav: {
-      position: 'fixed' as const,
-      top: 0,
-      width: '100%',
-      padding: '1.5rem 5%',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      background: 'rgba(255, 255, 255, 0.95)',
-      backdropFilter: 'blur(10px)',
-      zIndex: 1000,
-      borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
-      boxShadow: scrolled ? '0 2px 20px rgba(0, 0, 0, 0.08)' : '0 2px 10px rgba(0, 0, 0, 0.03)',
-      transition: 'box-shadow 0.3s',
-    },
-    logo: {
-      display: 'flex',
-      alignItems: 'center',
-      height: '50px',
-      cursor: 'pointer',
-    },
-    logoImg: {
-      height: '50px',
-      width: 'auto',
-    },
-    navLinks: {
-      display: 'flex',
-      gap: '2.5rem',
-      alignItems: 'center',
-      listStyle: 'none',
-      margin: 0,
-      padding: 0,
-    },
-    navItem: {
-      color: '#1a1a1a',
-      textDecoration: 'none',
-      fontWeight: 500,
-      cursor: 'pointer',
-      transition: 'color 0.3s',
-    },
-    dropdown: {
-      position: 'relative' as const,
-    },
-    dropdownToggle: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      color: '#1a1a1a',
-      fontWeight: 500,
-      cursor: 'pointer',
-    },
-    dropdownMenu: {
-      position: 'absolute' as const,
-      top: '100%',
-      left: 0,
-      marginTop: '1rem',
-      background: 'white',
-      border: '1px solid rgba(0, 0, 0, 0.08)',
-      borderRadius: '12px',
-      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
-      minWidth: '200px',
-      opacity: isDropdownOpen ? 1 : 0,
-      visibility: isDropdownOpen ? 'visible' as const : 'hidden' as const,
-      transform: isDropdownOpen ? 'translateY(0)' : 'translateY(-10px)',
-      transition: 'all 0.3s',
-    },
-    dropdownItem: {
-      padding: '1rem 1.5rem',
-      cursor: 'pointer',
-      transition: 'background 0.2s',
-    },
-    btnLogin: {
-      padding: '0.6rem 1.8rem',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: 'white',
-      border: 'none',
-      borderRadius: '25px',
-      fontWeight: 600,
-      cursor: 'pointer',
-      transition: 'all 0.3s',
-      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
-    },
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -189,125 +80,7 @@ const ContactUs = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-50">
-      {/* Navigation */}
-      <nav style={styles.nav}>
-        <div style={styles.logo} onClick={() => navigate('/')}>
-          <img 
-            style={styles.logoImg}
-            src="AmazingCubeFullLogo.png"
-            alt="Amazing Cube"
-          />
-        </div>
-        <ul style={styles.navLinks}>
-          <li style={styles.dropdown}>
-            <div 
-              style={styles.dropdownToggle}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              Solutions <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
-            </div>
-            <div style={styles.dropdownMenu}>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => handleSolutionClick('HRMS')}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                HRMS
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/wip'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                CRM AI Chatbot
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/Business_Intelligent'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Analytic Solution
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/learning'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Learning & Development
-              </div>
-            </div>
-          </li>
-          <li>
-            <a style={styles.navItem} onClick={() => handleNavigate('/community')}>
-              Community
-            </a>
-          </li>
-          <li>
-            <a style={styles.navItem}>
-              About
-            </a>
-          </li>
-          <li>
-            <a style={styles.navItem} onClick={() => handleNavigate('/contact')}>
-              Contact
-            </a>
-          </li>
-          <li style={styles.dropdown}>
-            <div 
-              style={{ ...styles.btnLogin, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-              onClick={() => setIsDropdownOpenLogin(!isDropdownOpenLogin)}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
-              }}
-            >
-              Login <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
-            </div>
-            <div style={{
-              ...styles.dropdownMenu,
-              minWidth: '160px',
-              marginTop: '0.5rem',
-              left: 0,
-              opacity: isDropdownOpenLogin ? 1 : 0,
-              visibility: isDropdownOpenLogin ? 'visible' : 'hidden',
-              transform: isDropdownOpenLogin ? 'translateY(0)' : 'translateY(-10px)',
-            }}>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://hrms.amazingcube.com.my', '_blank'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Business
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://ess.amazingcube.com.my', '_blank'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Employee
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/login-community'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Community
-              </div>
-            </div>
-          </li>
-        </ul>
-      </nav>
+      <Navigation />
 
       {/* Add padding to account for fixed navigation */}
       <div className="pt-20">

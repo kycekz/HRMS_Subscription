@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navigation from '../../components/Navigation';
 
 
 interface HomepageProps {
@@ -330,126 +331,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
       <div style={styles.bgGradient}></div>
       <div style={styles.bgPattern}></div>
 
-      {/* Navigation */}
-      <nav style={styles.nav}>
-        <div style={styles.logo} onClick={() => navigate('/')}>
-          <img 
-            style={styles.logoImg}
-            src="AmazingCubeFullLogo.png" // Use relative path for Vercel compatibility
-            alt="Amazing Cube"
-          />
-        </div>
-        <ul style={styles.navLinks}>
-          <li style={styles.dropdown}>
-            <div 
-              style={styles.dropdownToggle}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              Solutions <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
-            </div>
-            <div style={styles.dropdownMenu}>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => handleSolutionClick('HRMS')}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                HRMS
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/wip'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                CRM AI Chatbot
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/Business_Intelligent'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Analytic Solution
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpen(false); handleNavigate('/learning'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Learning & Development
-              </div>
-            </div>
-          </li>
-          <li>
-            <a style={styles.navItem} onClick={() => handleNavigate('/community')}>
-              Community
-            </a>
-          </li>
-          <li>
-            <a href="#about" style={styles.navItem}>
-              About
-            </a>
-          </li>
-          <li>
-            <a href="#contact" style={styles.navItem} onClick={(e) => smoothScroll(e, '#contact')}>
-              Contact
-            </a>
-          </li>
-          <li style={styles.dropdown}>
-            <div 
-              style={{ ...styles.btnLogin, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-              onClick={() => setIsDropdownOpenLogin(!isDropdownOpenLogin)}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
-              }}
-            >
-              Login <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
-            </div>
-            <div style={{
-              ...styles.dropdownMenu,
-              minWidth: '160px',
-              marginTop: '0.5rem',
-              left: 0,
-              opacity: isDropdownOpenLogin ? 1 : 0,
-              visibility: isDropdownOpenLogin ? 'visible' : 'hidden',
-              transform: isDropdownOpenLogin ? 'translateY(0)' : 'translateY(-10px)',
-            }}>
-              <div 
-                style={styles.dropdownItem}
-                //onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/login-business'); }}
-                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://hrms.amazingcube.com.my', '_blank'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Business
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpenLogin(false); window.open('https://ess.amazingcube.com.my', '_blank'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Employee
-              </div>
-              <div 
-                style={styles.dropdownItem}
-                onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/community_login'); }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-              >
-                Community
-              </div>
-            </div>
-          </li>
-        </ul>
-      </nav>
+      <Navigation />
 
       {/* Hero Section */}
       <section style={styles.hero}>
