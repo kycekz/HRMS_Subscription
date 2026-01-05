@@ -36,7 +36,7 @@ const LearningPage = () => {
     );
   }
 
-  return isMobile ? <LearningMobile /> : <LearningDesktop />;
+  return isMobile ? <LearningDesktop /> : <LearningDesktop />;
 };
 
 export default LearningPage;
