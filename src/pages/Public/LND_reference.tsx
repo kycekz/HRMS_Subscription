@@ -405,89 +405,28 @@ const LearningDevelopmentPage = () => {
             Empowering organizations through world-class corporate training programs designed for the modern workforce
           </p>
           
-          {/* HRDC Banner - Simple Version */}
+          {/* HRDC Banner - Text Only */}
           <div style={{
-            backgroundColor: '#fef7f0',
-            border: '2px solid #f97316',
-            borderRadius: '8px',
-            padding: '20px',
-            marginBottom: '40px',
-            textAlign: isMobile ? 'center' : 'left'
+            backgroundColor: '#fff3cd',
+            border: '1px solid #ffc107',
+            padding: '15px',
+            marginBottom: '30px',
+            textAlign: 'center'
           }}>
-            <div style={{
-              display: isMobile ? 'block' : 'table',
-              width: '100%'
+            <h3 style={{
+              color: '#856404',
+              margin: '0 0 10px 0',
+              fontSize: '1.2rem'
             }}>
-              <div style={{
-                display: isMobile ? 'block' : 'table-cell',
-                verticalAlign: 'middle',
-                paddingBottom: isMobile ? '20px' : '0'
-              }}>
-                <img 
-                  src="hrd_claimable.png" 
-                  alt="HRDC Claimable" 
-                  style={{ 
-                    height: '60px', 
-                    width: '60px', 
-                    marginRight: isMobile ? '10px' : '20px',
-                    marginBottom: isMobile ? '10px' : '0'
-                  }}
-                />
-                <img 
-                  src="hrd_tp.png" 
-                  alt="HRDC Training Provider" 
-                  style={{ 
-                    height: '60px', 
-                    width: '60px', 
-                    marginRight: '20px'
-                  }}
-                />
-              </div>
-              <div style={{
-                display: isMobile ? 'block' : 'table-cell',
-                verticalAlign: 'middle',
-                paddingRight: isMobile ? '0' : '20px'
-              }}>
-                <h3 style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                  color: '#1f2937',
-                  margin: '0 0 10px 0'
-                }}>
-                  HRDC Certified Training Provider
-                </h3>
-                <p style={{ 
-                  color: '#374151', 
-                  margin: '0',
-                  fontSize: '1rem'
-                }}>
-                  All eligible courses are claimable under HRD Corp scheme.
-                </p>
-              </div>
-              <div style={{
-                display: isMobile ? 'block' : 'table-cell',
-                verticalAlign: 'middle',
-                textAlign: isMobile ? 'center' : 'right',
-                paddingTop: isMobile ? '20px' : '0'
-              }}>
-                <a 
-                  href="https://hrdcorp.gov.my/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  style={{
-                    backgroundColor: '#ea580c',
-                    color: 'white',
-                    padding: '10px 20px',
-                    borderRadius: '20px',
-                    textDecoration: 'none',
-                    fontWeight: 'bold',
-                    display: 'inline-block'
-                  }}
-                >
-                  Learn More
-                </a>
-              </div>
-            </div>
+              🏆 HRDC Certified Training Provider
+            </h3>
+            <p style={{
+              color: '#856404',
+              margin: '0',
+              fontSize: '0.9rem'
+            }}>
+              All eligible courses are claimable under HRD Corp scheme.
+            </p>
           </div>
           
           <div style={{ marginBottom: '2rem' }}>
