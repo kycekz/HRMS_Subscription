@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useIsMobile, useIsTablet } from '../../hooks/useWindowSize';
 import MobileDebugger from '../../components/MobileDebugger';
 
 
@@ -339,11 +338,13 @@ const LearningDevelopmentPage = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOpenLogin, setIsDropdownOpenLogin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(''); // Add search term state
+  const [searchTerm, setSearchTerm] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  
+  const isMobile = windowWidth < 768;
+  const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
   useEffect(() => {
     let ticking = false;
@@ -358,12 +359,12 @@ const LearningDevelopmentPage = () => {
     };
 
     const handleResize = () => {
-      // Force re-render on resize to update responsive styles
-      setScrolled(prev => prev);
+      setWindowWidth(window.innerWidth);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
