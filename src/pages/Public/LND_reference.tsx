@@ -405,7 +405,7 @@ const LearningDevelopmentPage = () => {
             Empowering organizations through world-class corporate training programs designed for the modern workforce
           </p>
           
-          {/* HRDC Banner - Text Only */}
+          {/* HRDC Banner - With Images */}
           <div style={{
             backgroundColor: '#fff3cd',
             border: '1px solid #ffc107',
@@ -413,12 +413,31 @@ const LearningDevelopmentPage = () => {
             marginBottom: '30px',
             textAlign: 'center'
           }}>
+            <div style={{ marginBottom: '10px' }}>
+              <img 
+                src="hrd_claimable.png" 
+                alt="HRDC Claimable" 
+                style={{ 
+                  height: '50px', 
+                  width: '50px',
+                  marginRight: '10px'
+                }}
+              />
+              <img 
+                src="hrd_tp.png" 
+                alt="HRDC Training Provider" 
+                style={{ 
+                  height: '50px', 
+                  width: '50px'
+                }}
+              />
+            </div>
             <h3 style={{
               color: '#856404',
               margin: '0 0 10px 0',
               fontSize: '1.2rem'
             }}>
-              🏆 HRDC Certified Training Provider
+              HRDC Certified Training Provider
             </h3>
             <p style={{
               color: '#856404',
