@@ -101,9 +101,8 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
       cursor: 'pointer',
     },
     logoImg: {
-      height: window.innerWidth < 768 ? '40px' : '50px',
+      height: '50px',
       width: 'auto',
-      maxWidth: '150px',
     },
     navLinks: {
       display: 'flex',
