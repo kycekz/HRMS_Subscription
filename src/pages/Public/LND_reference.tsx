@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useIsMobile, useIsTablet } from '../../hooks/useWindowSize';
+import MobileDebugger from '../../components/MobileDebugger';
 
 
 // ============================================
@@ -870,6 +871,7 @@ const LearningDevelopmentPage = () => {
           </div>
         </div>
       </div>
+      <MobileDebugger />
     </div>
   );
 };

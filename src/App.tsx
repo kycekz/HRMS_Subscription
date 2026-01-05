@@ -12,6 +12,7 @@ import Learning from './pages/Public/LND_reference';
 import ContactUs from './pages/Public/ContactUs';
 import Community from './pages/Public/community';
 import CommunityLogin from './pages/Public/community_login';
+import ErrorBoundary from './components/ErrorBoundary';
 
 
 function MainPage() {
@@ -29,7 +30,7 @@ function App() {
       <Route path="/maintsx" element={<Maintsx />} />
       <Route path="/wip" element={<Wip />} />
       <Route path="/Business_Intelligent" element={<BIsolution />} />
-      <Route path="/learning" element={<Learning/>} />
+      <Route path="/learning" element={<ErrorBoundary><Learning/></ErrorBoundary>} />
       <Route path="/subscription" element={<SubscriptionSignup />} />
       <Route path="/subscription-complete" element={
         <SubscriptionComplete 
