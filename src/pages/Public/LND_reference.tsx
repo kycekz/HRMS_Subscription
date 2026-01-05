@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useIsMobile, useIsTablet } from '../../hooks/useWindowSize';
+import '../styles/mobile-fixes.css';
 
 
 // ============================================
@@ -338,7 +340,10 @@ const LearningDevelopmentPage = () => {
   const [isDropdownOpenLogin, setIsDropdownOpenLogin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Add search term state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   useEffect(() => {
     let ticking = false;
@@ -352,8 +357,17 @@ const LearningDevelopmentPage = () => {
       }
     };
 
+    const handleResize = () => {
+      // Force re-render on resize to update responsive styles
+      setScrolled(prev => prev);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const handleNavigate = useCallback((path: string) => {
@@ -378,16 +392,18 @@ const LearningDevelopmentPage = () => {
       position: 'fixed' as const,
       top: 0,
       width: '100%',
-      padding: '1.5rem 5%',
+      padding: isMobile ? '1rem 3%' : '1.5rem 5%',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       background: 'rgba(255, 255, 255, 0.95)',
       backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)', // Safari support
       zIndex: 1000,
       borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
       boxShadow: scrolled ? '0 2px 20px rgba(0, 0, 0, 0.08)' : '0 2px 10px rgba(0, 0, 0, 0.03)',
       transition: 'box-shadow 0.3s',
+      minHeight: '70px',
     },
     logo: {
       display: 'flex',
@@ -396,12 +412,13 @@ const LearningDevelopmentPage = () => {
       cursor: 'pointer',
     },
     logoImg: {
-      height: '50px',
+      height: isMobile ? '40px' : '50px',
       width: 'auto',
+      maxWidth: '150px',
     },
     navLinks: {
-      display: 'flex',
-      gap: '2.5rem',
+      display: isMobile ? 'none' : 'flex',
+      gap: isTablet ? '1.5rem' : '2.5rem',
       alignItems: 'center',
       listStyle: 'none',
       margin: 0,
@@ -474,9 +491,9 @@ const LearningDevelopmentPage = () => {
   }, [activeCategory, searchTerm]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-50 mobile-viewport-fix">
       {/* Navigation */}
-      <nav style={styles.nav}>
+      <nav style={styles.nav} className="nav-backdrop">
         <div style={styles.logo} onClick={() => navigate('/')}>
           <img 
             style={styles.logoImg}
@@ -593,21 +610,119 @@ const LearningDevelopmentPage = () => {
             </div>
           </li>
         </ul>
+        
+        {/* Mobile Menu Button */}
+        {isMobile && (
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1"
+            style={{ zIndex: 1001 }}
+          >
+            <span className={`block w-6 h-0.5 bg-gray-600 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-gray-600 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-gray-600 transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+          </button>
+        )}
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobile && isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-white z-50 md:hidden"
+          style={{ paddingTop: '80px' }}
+        >
+          <div className="flex flex-col p-6 space-y-4">
+            <div className="border-b border-gray-200 pb-4">
+              <h3 className="font-semibold text-gray-900 mb-3">Solutions</h3>
+              <div className="space-y-2 pl-4">
+                <button 
+                  onClick={() => { handleSolutionClick('HRMS'); setIsMobileMenuOpen(false); }}
+                  className="block w-full text-left py-2 text-gray-600"
+                >
+                  HRMS
+                </button>
+                <button 
+                  onClick={() => { handleNavigate('/wip'); setIsMobileMenuOpen(false); }}
+                  className="block w-full text-left py-2 text-gray-600"
+                >
+                  CRM AI Chatbot
+                </button>
+                <button 
+                  onClick={() => { handleNavigate('/Business_Intelligent'); setIsMobileMenuOpen(false); }}
+                  className="block w-full text-left py-2 text-gray-600"
+                >
+                  Analytic Solution
+                </button>
+                <button 
+                  onClick={() => { handleNavigate('/learning'); setIsMobileMenuOpen(false); }}
+                  className="block w-full text-left py-2 text-gray-600"
+                >
+                  Learning & Development
+                </button>
+              </div>
+            </div>
+            <button 
+              onClick={() => { handleNavigate('/community'); setIsMobileMenuOpen(false); }}
+              className="block w-full text-left py-3 text-gray-900 font-medium"
+            >
+              Community
+            </button>
+            <button className="block w-full text-left py-3 text-gray-900 font-medium">
+              About
+            </button>
+            <button 
+              onClick={() => { handleNavigate('/contact'); setIsMobileMenuOpen(false); }}
+              className="block w-full text-left py-3 text-gray-900 font-medium"
+            >
+              Contact
+            </button>
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="font-semibold text-gray-900 mb-3">Login</h3>
+              <div className="space-y-2 pl-4">
+                <button 
+                  onClick={() => { window.open('https://hrms.amazingcube.com.my', '_blank'); setIsMobileMenuOpen(false); }}
+                  className="block w-full text-left py-2 text-gray-600"
+                >
+                  Business
+                </button>
+                <button 
+                  onClick={() => { window.open('https://ess.amazingcube.com.my', '_blank'); setIsMobileMenuOpen(false); }}
+                  className="block w-full text-left py-2 text-gray-600"
+                >
+                  Employee
+                </button>
+                <button 
+                  onClick={() => { handleNavigate('/login-community'); setIsMobileMenuOpen(false); }}
+                  className="block w-full text-left py-2 text-gray-600"
+                >
+                  Community
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       </nav>
 
       {/* Add padding to account for fixed navigation */}
-      <div className="pt-20">
+      <div className="pt-20" style={{ paddingTop: isMobile ? '80px' : '90px' }}>
         {/* Header Section */}
         <div className="relative overflow-hidden" style={{ background: 'white' }}>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ padding: isMobile ? '16px 20px 60px' : '96px 32px' }}>
             <div className="text-center">
               <h1 className="text-5xl md:text-6xl font-extrabold mb-4" style={{
                 background: 'linear-gradient(135deg, #1a1a1a 0%, #667eea 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
+                backgroundClip: 'text',
+                fontSize: isMobile ? '2.5rem' : isTablet ? '3.5rem' : '4rem',
+                lineHeight: isMobile ? '1.2' : '1.1',
               }}>Learning & Development</h1>
-              <p className="text-xl max-w-3xl mx-auto" style={{ color: '#5a5a6a' }}>
+              <p className="text-xl max-w-3xl mx-auto" style={{ 
+                color: '#5a5a6a',
+                fontSize: isMobile ? '1rem' : '1.25rem',
+                padding: isMobile ? '0 10px' : '0',
+              }}>
                 Empowering organizations through world-class corporate training programs designed for the modern workforce
               </p>
             </div>
@@ -645,12 +760,15 @@ const LearningDevelopmentPage = () => {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ padding: isMobile ? '40px 16px' : '64px 32px' }}>
           {/* Category Filter */}
           <div className="mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-2 text-center">Training Categories</h2>
             <p className="text-center text-gray-600 text-lg mb-8">Choose your area of focus</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" style={{
+              gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)',
+              gap: isMobile ? '12px' : '16px',
+            }} className={isMobile ? 'mobile-grid' : ''}>
               <button
                 onClick={() => setActiveCategory('all')}
                 className={`p-6 rounded-2xl transition-all duration-300 ${
@@ -718,7 +836,10 @@ const LearningDevelopmentPage = () => {
               </span>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{
+              gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+              gap: isMobile ? '16px' : '24px',
+            }} className={isMobile ? 'mobile-grid' : ''}>
               {searchFilteredCourses.map((course) => (
                 <CourseCard key={course.title} course={course} />
               ))}

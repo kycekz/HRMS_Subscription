@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/mobile-fixes.css';
 
 
 interface HomepageProps {
@@ -81,16 +82,18 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
       position: 'fixed' as const,
       top: 0,
       width: '100%',
-      padding: '1.5rem 5%',
+      padding: window.innerWidth < 768 ? '1rem 3%' : '1.5rem 5%',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       background: 'rgba(255, 255, 255, 0.95)',
       backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
       zIndex: 1000,
       borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
       boxShadow: scrolled ? '0 2px 20px rgba(0, 0, 0, 0.08)' : '0 2px 10px rgba(0, 0, 0, 0.03)',
       transition: 'box-shadow 0.3s',
+      minHeight: '70px',
     },
     logo: {
       display: 'flex',
@@ -99,8 +102,9 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
       cursor: 'pointer',
     },
     logoImg: {
-      height: '50px',
+      height: window.innerWidth < 768 ? '40px' : '50px',
       width: 'auto',
+      maxWidth: '150px',
     },
     navLinks: {
       display: 'flex',
@@ -184,9 +188,9 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
       zIndex: 10,
     },
     h1: {
-      fontSize: '4.5rem',
+      fontSize: window.innerWidth < 768 ? '2.5rem' : window.innerWidth < 1024 ? '3.5rem' : '4.5rem',
       fontWeight: 800,
-      lineHeight: 1.1,
+      lineHeight: window.innerWidth < 768 ? 1.2 : 1.1,
       marginBottom: '1.5rem',
       background: 'linear-gradient(135deg, #1a1a1a 0%, #667eea 100%)',
       WebkitBackgroundClip: 'text',
@@ -194,12 +198,13 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
       backgroundClip: 'text',
     },
     subtitle: {
-      fontSize: '1.5rem',
+      fontSize: window.innerWidth < 768 ? '1rem' : '1.5rem',
       color: '#5a5a6a',
       marginBottom: '3rem',
       maxWidth: '800px',
       marginLeft: 'auto',
       marginRight: 'auto',
+      padding: window.innerWidth < 768 ? '0 10px' : '0',
     },
     ctaButtons: {
       display: 'flex',
