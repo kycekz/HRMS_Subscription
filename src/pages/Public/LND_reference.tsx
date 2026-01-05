@@ -389,11 +389,114 @@ const LearningDevelopmentPage = () => {
           <h1 style={{ 
             fontSize: isMobile ? '2rem' : '3rem', 
             textAlign: 'center', 
-            marginBottom: '2rem',
+            marginBottom: '1rem',
             color: '#1a1a1a'
           }}>
             Learning & Development
           </h1>
+          <p style={{
+            textAlign: 'center',
+            color: '#5a5a6a',
+            fontSize: isMobile ? '1rem' : '1.25rem',
+            marginBottom: '3rem',
+            maxWidth: '800px',
+            margin: '0 auto 3rem'
+          }}>
+            Empowering organizations through world-class corporate training programs designed for the modern workforce
+          </p>
+          
+          {/* HRDC Certification Banner */}
+          <div style={{
+            background: 'linear-gradient(to right, #fff7ed, #fef2f2)',
+            border: '1px solid #fed7aa',
+            borderRadius: '12px',
+            padding: isMobile ? '1.5rem' : '2rem',
+            marginBottom: '3rem'
+          }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: isMobile ? 'column' : 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1.5rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <div style={{
+                    height: '80px',
+                    width: '80px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(to bottom right, #fed7aa, #fecaca)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px solid #fdba74'
+                  }}>
+                    <img 
+                      src="hrd_claimable.png" 
+                      alt="HRDC Claimable" 
+                      style={{ height: '64px', width: '64px', objectFit: 'contain' }}
+                    />
+                  </div>
+                  <div style={{
+                    height: '80px',
+                    width: '80px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(to bottom right, #fecaca, #fed7aa)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px solid #f87171'
+                  }}>
+                    <img 
+                      src="hrd_tp.png" 
+                      alt="HRDC Training Provider" 
+                      style={{ height: '64px', width: '64px', objectFit: 'contain' }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <h3 style={{
+                    fontSize: isMobile ? '1.5rem' : '2rem',
+                    fontWeight: 'bold',
+                    color: '#1f2937',
+                    marginBottom: '0.5rem'
+                  }}>
+                    HRDC Certified Training Provider
+                  </h3>
+                  <p style={{ color: '#374151', fontSize: isMobile ? '0.9rem' : '1rem' }}>
+                    All our eligible courses are claimable under the HRD Corp scheme, helping you maximize your training investment.
+                  </p>
+                </div>
+              </div>
+              <a 
+                href="https://hrdcorp.gov.my/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                  background: 'linear-gradient(to right, #ea580c, #dc2626)',
+                  color: 'white',
+                  padding: '12px 24px',
+                  borderRadius: '25px',
+                  fontWeight: '600',
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                  boxShadow: '0 4px 15px rgba(234, 88, 12, 0.3)',
+                  transition: 'all 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(234, 88, 12, 0.4)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(234, 88, 12, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Learn More About HRDC
+              </a>
+            </div>
+          </div>
           
           <div style={{ marginBottom: '2rem' }}>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
