@@ -75,7 +75,18 @@ const LearningMobile = () => {
           marginBottom: '25px',
           textAlign: 'center'
         }}>
-          <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🏆 📋</div>
+          <div style={{ marginBottom: '10px', display: 'flex', justifyContent: 'center', gap: '10px' }}>
+            <img 
+              src="HRDCorp_Claimable.webp" 
+              alt="HRDC Claimable" 
+              style={{ height: '50px', width: '50px', objectFit: 'contain' }}
+            />
+            <img 
+              src="hrd_tp.png" 
+              alt="HRDC Training Provider" 
+              style={{ height: '50px', width: '50px', objectFit: 'contain' }}
+            />
+          </div>
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.1rem', color: '#856404' }}>
             HRDC Certified Training Provider
           </h3>

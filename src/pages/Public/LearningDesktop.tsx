@@ -597,7 +597,7 @@ const LearningDesktop = () => {
                 <div className="flex items-center gap-6">
                   <div className="flex gap-4">
                     <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center border-2 border-orange-300">
-                      <img src="hrd_claimable.png" alt="HRDC Claimable" className="h-16 w-16 object-contain" />
+                      <img src="HRDCorp_Claimable.webp" alt="HRDC Claimable" className="h-16 w-16 object-contain" />
                     </div>
                     <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-red-100 to-orange-100 flex items-center justify-center border-2 border-red-300">
                       <img src="hrd_tp.png" alt="HRDC Training Provider" className="h-16 w-16 object-contain" />
