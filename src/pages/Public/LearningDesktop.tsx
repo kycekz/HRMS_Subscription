@@ -344,9 +344,20 @@ const LearningDesktop = () => {
     navigate(path);
   };
 
-  const searchFilteredCourses = activeCategory === 'all' 
-    ? courses 
-    : courses.filter(course => course.category === activeCategory);
+  const searchFilteredCourses = useMemo(() => {
+    const filtered = activeCategory === 'all' 
+      ? courses 
+      : courses.filter(course => course.category === activeCategory);
+    
+    if (!searchTerm) return filtered;
+    
+    const searchLower = searchTerm.toLowerCase();
+    return filtered.filter(course => 
+      course.title.toLowerCase().includes(searchLower) ||
+      course.description.toLowerCase().includes(searchLower) ||
+      course.highlights.some(highlight => highlight.toLowerCase().includes(searchLower))
+    );
+  }, [activeCategory, searchTerm]);
 
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(to bottom, #f0f4ff, white, #f0f4ff)' }}>
@@ -468,14 +479,42 @@ const LearningDesktop = () => {
             </div>
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1rem'
-          }}>
-            {searchFilteredCourses.map((course) => (
-              <CourseCard key={course.title} course={course} />
-            ))}
+          {/* Search Input */}
+          <div className="mb-8">
+            <div className="max-w-2xl mx-auto">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search courses by title, description, or keywords..."
+                  className="w-full px-6 py-4 text-lg border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-lg"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-6">
+                  <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Course Listing */}
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900">
+                {activeCategory === 'all' ? 'All Courses' : courseCategories.find(c => c.id === activeCategory)?.name}
+              </h2>
+              <span className="text-gray-600 font-medium">
+                {searchFilteredCourses.length} {searchFilteredCourses.length === 1 ? 'course' : 'courses'} available
+              </span>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {searchFilteredCourses.map((course) => (
+                <CourseCard key={course.title} course={course} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
