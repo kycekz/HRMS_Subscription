@@ -434,7 +434,7 @@ const LearningDesktop = () => {
             </div>
           </div>
           
-          <div style={{ marginBottom: '2rem' }}>
+          <div style={{ marginBottom: '4rem', marginTop: '4rem' }}>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
               <button
                 onClick={() => setActiveCategory('all')}
