@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -248,89 +247,33 @@ const courses = Object.freeze([
 // END OF CONFIGURATION SECTION
 // ============================================
 
-const iconMap: Record<string, LucideIcon> = {
-  BookOpen,
-  Users,
-  Brain,
-  TrendingUp
+const iconMap = {
+  BookOpen: '📚',
+  Users: '👥', 
+  Brain: '🧠',
+  TrendingUp: '📈'
 };
 
-interface Course {
-  category: string;
-  title: string;
-  duration: string;
-  level: string;
-  hrdcClaimable: boolean;
-  description: string;
-  highlights: string[];
-}
 
-interface CourseCardProps {
-  course: Course;
-}
 
-const CourseCard: React.FC<CourseCardProps> = React.memo(({ course }) => {
-  const [expanded, setExpanded] = useState(false);
-
+const CourseCard = ({ course }) => {
   return (
-    <div className="bg-white rounded-2xl hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:border-indigo-500 group">
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="text-xl font-bold text-gray-900 flex-1 group-hover:text-indigo-600 transition-colors">{course.title}</h3>
-          {course.hrdcClaimable && (
-            <span className="ml-3 px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-semibold rounded-full whitespace-nowrap shadow-lg">
-              HRDC Claimable
-            </span>
-          )}
-        </div>
-        
-        <p className="text-gray-600 mb-4 leading-relaxed">{course.description}</p>
-        
-        <div className="flex flex-wrap gap-3 mb-4">
-          <div className="flex items-center text-sm text-gray-600">
-            <Clock className="w-4 h-4 mr-1.5 text-indigo-600" />
-            <span>{course.duration}</span>
-          </div>
-          <div className="flex items-center text-sm text-gray-600">
-            <Award className="w-4 h-4 mr-1.5 text-indigo-600" />
-            <span>{course.level}</span>
-          </div>
-        </div>
-
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="flex items-center text-indigo-600 hover:text-purple-600 font-semibold text-sm transition-colors"
-        >
-          {expanded ? (
-            <>
-              <ChevronUp className="w-4 h-4 mr-1" />
-              Show Less
-            </>
-          ) : (
-            <>
-              <ChevronDown className="w-4 h-4 mr-1" />
-              View Details
-            </>
-          )}
-        </button>
-
-        {expanded && (
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <h4 className="font-semibold text-gray-900 mb-3">Key Highlights:</h4>
-            <ul className="space-y-2">
-              {course.highlights.map((highlight, idx) => (
-                <li key={idx} className="flex items-start text-sm text-gray-600">
-                  <CheckCircle className="w-4 h-4 mr-2 text-indigo-600 flex-shrink-0 mt-0.5" />
-                  <span>{highlight}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+    <div style={{
+      backgroundColor: 'white',
+      border: '1px solid #ccc',
+      borderRadius: '8px',
+      padding: '20px',
+      marginBottom: '15px'
+    }}>
+      <h3 style={{ margin: '0 0 10px 0', color: '#333' }}>{course.title}</h3>
+      <p style={{ margin: '0 0 10px 0', color: '#666', fontSize: '0.9rem' }}>{course.description}</p>
+      <div style={{ fontSize: '0.8rem', color: '#888' }}>
+        Duration: {course.duration} | Level: {course.level}
+        {course.hrdcClaimable && <span style={{ color: '#007bff', marginLeft: '10px' }}>HRDC Claimable</span>}
       </div>
     </div>
   );
-});
+};
 
 const LearningDevelopmentPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -463,22 +406,25 @@ const LearningDevelopmentPage = () => {
               >
                 All Courses
               </button>
-              {courseCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  style={{
-                    padding: '0.5rem 1rem',
-                    border: activeCategory === category.id ? 'none' : '1px solid #ccc',
-                    background: activeCategory === category.id ? '#667eea' : 'white',
-                    color: activeCategory === category.id ? 'white' : '#333',
-                    borderRadius: '20px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {category.name}
-                </button>
-              ))}
+              {courseCategories.map((category) => {
+                const IconEmoji = iconMap[category.icon];
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => setActiveCategory(category.id)}
+                    style={{
+                      padding: '0.5rem 1rem',
+                      border: activeCategory === category.id ? 'none' : '1px solid #ccc',
+                      background: activeCategory === category.id ? '#667eea' : 'white',
+                      color: activeCategory === category.id ? 'white' : '#333',
+                      borderRadius: '20px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {IconEmoji} {category.name}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
