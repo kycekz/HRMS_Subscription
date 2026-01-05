@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState } from 'react';
 import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import MobileDebugger from '../../components/MobileDebugger';
 
 
 // ============================================
@@ -335,18 +334,10 @@ const CourseCard: React.FC<CourseCardProps> = React.memo(({ course }) => {
 
 const LearningDevelopmentPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  // Static mobile check - no state updates
+  const isMobile = window.innerWidth < 768;
 
   const handleNavigate = (path: string) => {
     navigate(path);
@@ -502,7 +493,6 @@ const LearningDevelopmentPage = () => {
           </div>
         </div>
       </div>
-      <MobileDebugger />
     </div>
   );
 };
