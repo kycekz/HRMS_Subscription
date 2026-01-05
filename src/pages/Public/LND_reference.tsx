@@ -702,7 +702,6 @@ const LearningDevelopmentPage = () => {
           </div>
         </div>
       )}
-      </nav>
 
       {/* Add padding to account for fixed navigation */}
       <div className="pt-20" style={{ paddingTop: isMobile ? '80px' : '90px' }}>
