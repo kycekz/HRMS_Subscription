@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useIsMobile, useIsTablet } from '../../hooks/useWindowSize';
-import '../styles/mobile-fixes.css';
 
 
 // ============================================
@@ -491,9 +490,9 @@ const LearningDevelopmentPage = () => {
   }, [activeCategory, searchTerm]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-50 mobile-viewport-fix">
+    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-50" style={{ minHeight: '100vh' }}>
       {/* Navigation */}
-      <nav style={styles.nav} className="nav-backdrop">
+      <nav style={styles.nav}>
         <div style={styles.logo} onClick={() => navigate('/')}>
           <img 
             style={styles.logoImg}
@@ -764,10 +763,12 @@ const LearningDevelopmentPage = () => {
           <div className="mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-2 text-center">Training Categories</h2>
             <p className="text-center text-gray-600 text-lg mb-8">Choose your area of focus</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" style={{
-              gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)',
+            <div className={isMobile ? '' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4'} style={{
+              display: isMobile ? 'flex' : 'grid',
+              flexDirection: isMobile ? 'column' : undefined,
+              gridTemplateColumns: isMobile ? undefined : isTablet ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)',
               gap: isMobile ? '12px' : '16px',
-            }} className={isMobile ? 'mobile-grid' : ''}>
+            }}>
               <button
                 onClick={() => setActiveCategory('all')}
                 className={`p-6 rounded-2xl transition-all duration-300 ${
@@ -835,10 +836,12 @@ const LearningDevelopmentPage = () => {
               </span>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{
-              gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+            <div className={isMobile ? '' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'} style={{
+              display: isMobile ? 'flex' : 'grid',
+              flexDirection: isMobile ? 'column' : undefined,
+              gridTemplateColumns: isMobile ? undefined : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
               gap: isMobile ? '16px' : '24px',
-            }} className={isMobile ? 'mobile-grid' : ''}>
+            }}>
               {searchFilteredCourses.map((course) => (
                 <CourseCard key={course.title} course={course} />
               ))}
