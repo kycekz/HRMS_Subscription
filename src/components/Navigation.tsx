@@ -188,7 +188,7 @@ const Navigation = () => {
             </div>
             <div 
               style={{ padding: '1rem 1.5rem', cursor: 'pointer', transition: 'background 0.2s' }}
-              onClick={() => { setIsDropdownOpenLogin(false); handleNavigate('/community_login'); }}
+              onClick={() => { setIsDropdownOpenLogin(false); window.open('https://community.amazingcube.com.my/'); }}
               onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
             >
