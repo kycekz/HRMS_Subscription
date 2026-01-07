@@ -77,7 +77,7 @@ const Navigation = () => {
             }}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            Solutions <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
+            Resources <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
           </div>
           <div style={{
             position: 'absolute',

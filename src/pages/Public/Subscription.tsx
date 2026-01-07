@@ -22,11 +22,11 @@ const plans: Record<PlanKey, Plan> = {
   trial: {
     id: 'trial',
     name: 'trial',
-    displayName: '30-Day Trial',
+    displayName: 'Community',
     priceMonthly: 0,
     priceYearly: 0,
     maxEmployees: 5,
-    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess','free'],
+    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess'],
     description: 'Perfect for testing our system. Suitable for start up small business',
     popular: false,
     trialOnly: true
@@ -38,7 +38,7 @@ const plans: Record<PlanKey, Plan> = {
     priceMonthly: 50,
     priceYearly: 540,
     maxEmployees: 10,
-    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess','bulk_upload','add_employee'],
+    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess','bulk_upload','add_employee','free'],
     description: 'Essential features for small businesses',
     popular: true,
     trialOnly: false
@@ -50,7 +50,7 @@ const plans: Record<PlanKey, Plan> = {
     priceMonthly: 800,
     priceYearly: 8448,
     maxEmployees: 200,
-    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess', 'bulk_upload','expense_claims', 'roster'],
+    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess', 'bulk_upload','expense_claims', 'roster','free'],
     description: 'Advanced tools for growing companies',
     popular: false,
     trialOnly: false
@@ -62,17 +62,17 @@ const plans: Record<PlanKey, Plan> = {
     priceMonthly: 6000,
     priceYearly: 59760,
     maxEmployees: 9999,
-    features: ['all_features', 'api_access', 'custom_reports', 'priority_support', 'white_label','ai','bi'],
+    features: ['all_features', 'api_access', 'custom_reports', 'priority_support', 'white_label','ai','bi','free'],
     description: 'Complete solution for large organizations',
     popular: false,
     trialOnly: false
   }
 };
 const featureDescriptions: Record<string, string> = {
-  payroll: 'Complete payroll processing',
+  payroll: 'Automated payroll processing',
   employee_management: 'Employee data management',
   basic_reports: 'Standard reporting suite',
-  epf_socso_eis: 'EPF, SOCSO & EIS compliance',
+  epf_socso_eis: 'PCB, EPF, SOCSO & EIS compliance',
   advanced_reports: 'Advanced analytics & reports',
   expense_claims: 'Expense claims management',
   bulk_upload: 'Bulk data import/export',
@@ -88,9 +88,10 @@ const featureDescriptions: Record<string, string> = {
   ai:  'AI-powered Solution',
   bi : 'Business Intelligence',
   ess: 'Employee Self-Service',
-  trial :'30-Day Trial',
+  trial :'Trial',
   add_employee :'Add on employee at RM3 per month',
-  free: 'Convert to free plan *T&C apply'
+  free: 'Ads-Free'
+
 };
 
 const SubscriptionSignup: React.FC = () => {
@@ -490,9 +491,9 @@ const SubscriptionSignup: React.FC = () => {
         {currentStep === 1 && (
           <div className="pt-24">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-light text-gray-900 mb-2">Choose Your Plan</h1>
+              <h1 className="text-3xl font-light text-gray-900 mb-2">Choose HR & Payroll Solution Today</h1>
               <p className="text-gray-600">Select the perfect plan for your business needs</p>
-              <p className="text-gray-600">Use first, decide whether to pay later</p>
+              <p className="text-gray-600">Use first, decide whether to contribute later</p>
             </div>
 
             {/* Billing Toggle */}
@@ -990,7 +991,7 @@ const SubscriptionSignup: React.FC = () => {
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
                   <div className="flex items-center mb-2">
                     <Clock className="h-5 w-5 text-yellow-600 mr-2" />
-                    <h3 className="text-lg font-semibold text-yellow-800">30-Day Free Trial</h3>
+                    <h3 className="text-lg font-semibold text-yellow-800">Communityl</h3>
                   </div>
                   <p className="text-sm text-yellow-700">
                     Your trial will start immediately and end in 30 days. You can upgrade to a paid plan at any time during your trial period.
