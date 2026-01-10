@@ -27,43 +27,43 @@ const plans: Record<PlanKey, Plan> = {
     priceYearly: 0,
     maxEmployees: 5,
     features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess'],
-    description: 'Perfect for testing our system. Suitable for start up small business',
+    description: 'Perfect for trying our system. Suitable for start up small business',
     popular: false,
     trialOnly: true
   },
   basic: {
     id: 'basic',
     name: 'basic',
-    displayName: 'Basic Plan',
+    displayName: 'Essential',
     priceMonthly: 50,
     priceYearly: 540,
     maxEmployees: 10,
-    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess','bulk_upload','add_employee','free'],
-    description: 'Essential features for small businesses',
+    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess','bulk_upload','add_employee'],
+    description: 'Essential features for small businesses. Improve your business efficiency', 
     popular: true,
     trialOnly: false
   },
   professional: {
     id: 'professional',
     name: 'professional',
-    displayName: 'Professional Plan',
+    displayName: 'Premium',
     priceMonthly: 800,
     priceYearly: 8448,
     maxEmployees: 200,
-    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess', 'bulk_upload','expense_claims', 'roster','free'],
-    description: 'Advanced tools for growing companies',
+    features: ['employee_management', 'payroll', 'epf_socso_eis',  'basic_reports', 'attendance','leave','ess', 'bulk_upload','expense_claims', 'roster'],
+    description: 'Full features & Advanced tools for growing companies. Transforming your operation',
     popular: false,
     trialOnly: false
   },
   enterprise: {
     id: 'enterprise',
     name: 'enterprise',
-    displayName: 'Enterprise Plan',
+    displayName: 'Enterprise',
     priceMonthly: 6000,
     priceYearly: 59760,
     maxEmployees: 9999,
-    features: ['all_features', 'api_access', 'custom_reports', 'priority_support', 'white_label','ai','bi','free'],
-    description: 'Complete solution for large organizations',
+    features: ['all_features', 'api_access', 'custom_reports', 'priority_support', 'white_label','ai','bi'],
+    description: 'Complete solution for large organizations. Next level of Information Technology',
     popular: false,
     trialOnly: false
   }
@@ -596,6 +596,18 @@ const SubscriptionSignup: React.FC = () => {
               >
                 Continue
               </button>
+            </div>
+
+            {/* Contact Section */}
+            <div className="text-center mt-8 p-6 bg-gray-50 rounded-lg max-w-md mx-auto">
+              <p className="text-gray-700 mb-4">Speak with us if you need something special</p>
+              <a
+                href="mailto:enquiry@amazingcube.com.my"
+                className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+              >
+                <Mail className="h-4 w-4 mr-2" />
+                Contact Us
+              </a>
             </div>
           </div>
         )}

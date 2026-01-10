@@ -12,6 +12,7 @@ import Learning from './pages/Public/LearningDevelopment';
 import ContactUs from './pages/Public/ContactUs';
 import Community from './pages/Public/community';
 import CommunityLogin from './pages/Public/community_login';
+import PublicCoursePage from './pages/Public/PublicCoursePage';
 import ErrorBoundary from './components/ErrorBoundary';
 
 
@@ -31,6 +32,8 @@ function App() {
       <Route path="/wip" element={<Wip />} />
       <Route path="/Business_Intelligent" element={<BIsolution />} />
       <Route path="/learning" element={<ErrorBoundary><Learning/></ErrorBoundary>} />
+      <Route path="/learning-development" element={<ErrorBoundary><Learning/></ErrorBoundary>} />
+      <Route path="/course/:courseId" element={<ErrorBoundary><PublicCoursePage/></ErrorBoundary>} />
       <Route path="/subscription" element={<SubscriptionSignup />} />
       <Route path="/subscription-complete" element={
         <SubscriptionComplete 

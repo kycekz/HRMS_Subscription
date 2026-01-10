@@ -88,7 +88,7 @@ const Navigation = () => {
             border: '1px solid rgba(0, 0, 0, 0.08)',
             borderRadius: '12px',
             boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
-            minWidth: '200px',
+            minWidth: '250px',
             opacity: isDropdownOpen ? 1 : 0,
             visibility: isDropdownOpen ? 'visible' : 'hidden',
             transform: isDropdownOpen ? 'translateY(0)' : 'translateY(-10px)',

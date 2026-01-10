@@ -2,11 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { BookOpen, Users, Brain, TrendingUp, CheckCircle, Clock, Award, ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
-
-
-// ============================================
-// EASY CONFIGURATION SECTION - EDIT HERE
-// ============================================
+import { supabasewebsite } from '../../lib/supabasewebsite';
 
 // Course Categories Configuration
 const courseCategories = Object.freeze([
@@ -40,215 +36,6 @@ const courseCategories = Object.freeze([
   }
 ]);
 
-// Courses Configuration
-const courses = Object.freeze([
-  // Technical Skills
-  {
-    category: 'technical',
-    title: 'Advanced Data Analytics with Python',
-    duration: '3 Days',
-    level: 'Intermediate',
-    hrdcClaimable: true,
-    description: 'Master data analysis techniques using Python, pandas, and visualization libraries. Learn to extract insights from complex datasets and create compelling data stories.',
-    highlights: [
-      'Data manipulation with Pandas',
-      'Statistical analysis fundamentals',
-      'Data visualization with Matplotlib & Seaborn',
-      'Real-world case studies'
-    ]
-  },
-  {
-    category: 'technical',
-    title: 'Micrsoft Excel with VBA',
-    duration: '2 Days',
-    level: 'Intermediate',
-    hrdcClaimable: true,
-    description: 'Master Excel techniques using Visual Basic Application. Learn to build basic functionalities with Excel for day to day tasks.',
-    highlights: [
-      'Programing fundamentals',
-      'Visual basic programming',
-      'Use case for Excel VBA',
-      'Real-world case studies'
-    ]
-  },
-  {
-    category: 'technical',
-    title: 'Cloud Computing Essentials (AWS/Azure)',
-    duration: '2 Days',
-    level: 'Beginner',
-    hrdcClaimable: true,
-    description: 'Understand cloud infrastructure, deployment models, and best practices for migrating applications to the cloud.',
-    highlights: [
-      'Cloud architecture fundamentals',
-      'AWS/Azure core services',
-      'Cost optimization strategies',
-      'Security best practices'
-    ]
-  },
-  {
-    category: 'technical',
-    title: 'Cybersecurity Fundamentals for Business',
-    duration: '2 Days',
-    level: 'Beginner',
-    hrdcClaimable: true,
-    description: 'Protect your organization from cyber threats with practical security measures and risk management strategies.',
-    highlights: [
-      'Threat landscape overview',
-      'Network security basics',
-      'Incident response procedures',
-      'Compliance requirements'
-    ]
-  },
-  // Soft Skills
-  {
-    category: 'soft',
-    title: 'Effective Leadership in the Digital Age',
-    duration: '2 Days',
-    level: 'All Levels',
-    hrdcClaimable: true,
-    description: 'Develop leadership skills essential for managing teams in modern, technology-driven workplaces.',
-    highlights: [
-      'Leadership styles and adaptability',
-      'Remote team management',
-      'Change management strategies',
-      'Building high-performance cultures'
-    ]
-  },
-  {
-    category: 'soft',
-    title: 'Strategic Communication & Presentation Skills',
-    duration: '2 Days',
-    level: 'All Levels',
-    hrdcClaimable: true,
-    description: 'Master the art of persuasive communication and deliver impactful presentations that drive action.',
-    highlights: [
-      'Audience analysis techniques',
-      'Storytelling for business',
-      'Visual presentation design',
-      'Handling difficult questions'
-    ]
-  },
-  {
-    category: 'soft',
-    title: 'Emotional Intelligence for Professionals',
-    duration: '1 Day',
-    level: 'All Levels',
-    hrdcClaimable: true,
-    description: 'Enhance workplace relationships and performance through improved emotional awareness and management.',
-    highlights: [
-      'Self-awareness development',
-      'Empathy and social skills',
-      'Conflict resolution',
-      'Stress management techniques'
-    ]
-  },
-  // AI & Innovation
-  {
-    category: 'ai',
-    title: 'AI in Business: Practical Applications',
-    duration: '2 Days',
-    level: 'Beginner',
-    hrdcClaimable: true,
-    description: 'Discover how to leverage AI tools and technologies to drive efficiency, innovation, and competitive advantage in your organization.',
-    highlights: [
-      'AI fundamentals for business leaders',
-      'Use cases across industries',
-      'ChatGPT and Generative AI applications',
-      'AI implementation roadmap'
-    ]
-  },
-  {
-    category: 'ai',
-    title: 'Prompt Engineering & AI Tool Mastery',
-    duration: '1 Day',
-    level: 'Beginner',
-    hrdcClaimable: true,
-    description: 'Learn to craft effective prompts and maximize productivity using AI assistants like ChatGPT, Claude, and specialized tools.',
-    highlights: [
-      'Advanced prompt engineering techniques',
-      'AI tool selection and comparison',
-      'Workflow automation with AI',
-      'Ethical AI usage guidelines'
-    ]
-  },
-  {
-    category: 'ai',
-    title: 'Machine Learning for Business Analysts',
-    duration: '3 Days',
-    level: 'Intermediate',
-    hrdcClaimable: true,
-    description: 'Understand ML concepts and learn to identify opportunities for ML implementation in business processes.',
-    highlights: [
-      'ML algorithms overview',
-      'Predictive analytics applications',
-      'Model evaluation basics',
-      'Business case development'
-    ]
-  },
-  // Competency Development
-  {
-    category: 'competency',
-    title: 'Project Management Professional (PMP) Prep',
-    duration: '5 Days',
-    level: 'Intermediate',
-    hrdcClaimable: true,
-    description: 'Comprehensive preparation for PMP certification covering PMBOK framework and best practices.',
-    highlights: [
-      'PMBOK 7th Edition coverage',
-      'Agile and hybrid approaches',
-      'Risk and stakeholder management',
-      'Practice exams and simulations'
-    ]
-  },
-  {
-    category: 'competency',
-    title: 'Business Process Optimization',
-    duration: '2 Days',
-    level: 'Intermediate',
-    hrdcClaimable: true,
-    description: 'Learn to analyze, redesign, and optimize business processes for maximum efficiency and value.',
-    highlights: [
-      'Process mapping techniques',
-      'Lean Six Sigma principles',
-      'Performance metrics design',
-      'Change implementation strategies'
-    ]
-  },
-  {
-    category: 'competency',
-    title: 'Financial Acumen for Non-Finance Managers',
-    duration: '2 Days',
-    level: 'Beginner',
-    hrdcClaimable: true,
-    description: 'Develop essential financial literacy to make better business decisions and communicate effectively with finance teams.',
-    highlights: [
-      'Reading financial statements',
-      'Budgeting and forecasting',
-      'ROI and financial metrics',
-      'Cost-benefit analysis'
-    ]
-  },
-  {
-    category: 'technical',
-    title: 'e-Invoice for Small Businesses',
-    duration: '1 Days',
-    level: 'Beginner',
-    hrdcClaimable: true,
-    description: 'Develop essential knowledge on e-invoice for LHDN submisstion to ensure compliance to regulation.',
-    highlights: [
-      'Understanding e-invoice',
-      'Compliance and regulations',
-      'Impact to business',
-      'Implementing e-invoice'
-    ]
-  }
-
-]);
-
-// ============================================
-// END OF CONFIGURATION SECTION
-// ============================================
-
 const iconMap: Record<string, LucideIcon> = {
   BookOpen,
   Users,
@@ -257,13 +44,16 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 interface Course {
-  category: string;
+  id: string;
   title: string;
-  duration: string;
-  level: string;
-  hrdcClaimable: boolean;
   description: string;
-  highlights: string[];
+  course_details: string;
+  duration: string;
+  category: string;
+  level: string;
+  hrdc_claimable: boolean;
+  price: number;
+  delivery_type: string;
 }
 
 interface CourseCardProps {
@@ -271,14 +61,18 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = React.memo(({ course }) => {
-  const [expanded, setExpanded] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleViewDetails = () => {
+    window.open(`/course/${course.id}`, '_blank');
+  };
 
   return (
     <div className="bg-white rounded-2xl hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:border-indigo-500 group">
       <div className="p-6">
         <div className="flex justify-between items-start mb-3">
           <h3 className="text-xl font-bold text-gray-900 flex-1 group-hover:text-indigo-600 transition-colors">{course.title}</h3>
-          {course.hrdcClaimable && (
+          {course.hrdc_claimable && (
             <span className="ml-3 px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-semibold rounded-full whitespace-nowrap shadow-lg">
               HRDC Claimable
             </span>
@@ -299,35 +93,12 @@ const CourseCard: React.FC<CourseCardProps> = React.memo(({ course }) => {
         </div>
 
         <button
-          onClick={() => setExpanded(!expanded)}
+          onClick={handleViewDetails}
           className="flex items-center text-indigo-600 hover:text-purple-600 font-semibold text-sm transition-colors"
         >
-          {expanded ? (
-            <>
-              <ChevronUp className="w-4 h-4 mr-1" />
-              Show Less
-            </>
-          ) : (
-            <>
-              <ChevronDown className="w-4 h-4 mr-1" />
-              View Details
-            </>
-          )}
+          <ChevronDown className="w-4 h-4 mr-1" />
+          View Details
         </button>
-
-        {expanded && (
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <h4 className="font-semibold text-gray-900 mb-3">Key Highlights:</h4>
-            <ul className="space-y-2">
-              {course.highlights.map((highlight, idx) => (
-                <li key={idx} className="flex items-start text-sm text-gray-600">
-                  <CheckCircle className="w-4 h-4 mr-2 text-indigo-600 flex-shrink-0 mt-0.5" />
-                  <span>{highlight}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -336,7 +107,46 @@ const CourseCard: React.FC<CourseCardProps> = React.memo(({ course }) => {
 const LearningDevelopment = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  // Get unique categories from courses
+  const availableCategories = useMemo(() => {
+    const categories = [...new Set(courses.map(course => course.category).filter(Boolean))];
+    return categories.sort();
+  }, [courses]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        console.log('Fetching courses from database...');
+        const { data, error } = await supabasewebsite
+          .from('courses')
+          .select('*')
+          .eq('is_public', true)
+          .order('created_at', { ascending: false });
+        
+        console.log('Supabase response:', { data, error });
+        
+        if (error) {
+          console.error('Supabase error:', error);
+          throw error;
+        }
+        
+        console.log('Courses fetched:', data?.length || 0);
+        setCourses(data || []);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+        // Fallback to show empty state instead of loading forever
+        setCourses([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const searchFilteredCourses = useMemo(() => {
     const filtered = activeCategory === 'all' 
@@ -349,13 +159,28 @@ const LearningDevelopment = () => {
     return filtered.filter(course => 
       course.title.toLowerCase().includes(searchLower) ||
       course.description.toLowerCase().includes(searchLower) ||
-      course.highlights.some(highlight => highlight.toLowerCase().includes(searchLower))
+      (course.course_details && course.course_details.toLowerCase().includes(searchLower))
     );
-  }, [activeCategory, searchTerm]);
+  }, [activeCategory, searchTerm, courses]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-50">
+        <Navigation />
+        <div className="flex items-center justify-center" style={{ paddingTop: '200px' }}>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading courses...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-50">
       <Navigation />
+
 
       {/* Content */}
       <div style={{ paddingTop: '100px', padding: '100px 20px 40px' }}>
@@ -424,20 +249,20 @@ const LearningDevelopment = () => {
               >
                 All Courses
               </button>
-              {courseCategories.map((category) => (
+              {availableCategories.map((category) => (
                 <button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
                   style={{
                     padding: '0.5rem 1rem',
-                    border: activeCategory === category.id ? 'none' : '1px solid #ccc',
-                    background: activeCategory === category.id ? '#667eea' : 'white',
-                    color: activeCategory === category.id ? 'white' : '#333',
+                    border: activeCategory === category ? 'none' : '1px solid #ccc',
+                    background: activeCategory === category ? '#667eea' : 'white',
+                    color: activeCategory === category ? 'white' : '#333',
                     borderRadius: '20px',
                     cursor: 'pointer'
                   }}
                 >
-                  {category.name}
+                  {category}
                 </button>
               ))}
             </div>
@@ -467,18 +292,34 @@ const LearningDevelopment = () => {
           <div className="mb-12">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-3xl font-bold text-gray-900">
-                {activeCategory === 'all' ? 'All Courses' : courseCategories.find(c => c.id === activeCategory)?.name}
+                {activeCategory === 'all' ? 'All Courses' : activeCategory}
               </h2>
               <span className="text-gray-600 font-medium">
                 {searchFilteredCourses.length} {searchFilteredCourses.length === 1 ? 'course' : 'courses'} available
               </span>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {searchFilteredCourses.map((course) => (
-                <CourseCard key={course.title} course={course} />
-              ))}
-            </div>
+            {searchFilteredCourses.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <BookOpen className="w-16 h-16 mx-auto mb-4" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-600 mb-2">
+                  {courses.length === 0 ? 'No courses available' : 'No courses match your search'}
+                </h3>
+                <p className="text-gray-500">
+                  {courses.length === 0 
+                    ? 'Courses will be added soon. Please check back later.' 
+                    : 'Try adjusting your search terms or category filter.'}
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {searchFilteredCourses.map((course) => (
+                  <CourseCard key={course.id} course={course} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
