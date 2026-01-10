@@ -614,7 +614,7 @@ const SubscriptionSignup: React.FC = () => {
 
         {/* Step 2: Company Information */}
         {currentStep === 2 && (
-          <div className="pt-24">
+          <div className="pt-40">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-light text-gray-900 mb-2">Company Information</h1>
               <p className="text-gray-600">Tell us about your company</p>
@@ -773,13 +773,13 @@ const SubscriptionSignup: React.FC = () => {
 
         {/* Step 3: Admin User Setup */}
         {currentStep === 3 && (
-          <div>
+          <div className="pt-40">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-light text-gray-900 mb-2">Admin User Setup</h1>
               <p className="text-gray-600">Create your administrator account</p>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm p-8">
+            <div className="bg-white rounded-lg shadow-sm p-8 max-w-4xl mx-auto">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -906,7 +906,7 @@ const SubscriptionSignup: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-between mt-8">
+            <div className="flex justify-center mt-8 space-x-10">
               <button
                 onClick={handleBack}
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
@@ -925,13 +925,13 @@ const SubscriptionSignup: React.FC = () => {
 
         {/* Step 4: Review & Complete */}
         {currentStep === 4 && (
-          <div>
+          <div className="pt-40">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-light text-gray-900 mb-2">Review & Complete</h1>
               <p className="text-gray-600">Please review your information before completing setup</p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 max-w-4xl mx-auto">
               {/* Plan Summary */}
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Selected Plan</h3>
@@ -1006,7 +1006,7 @@ const SubscriptionSignup: React.FC = () => {
                     <h3 className="text-lg font-semibold text-yellow-800">Communityl</h3>
                   </div>
                   <p className="text-sm text-yellow-700">
-                    Your trial will start immediately and end in 30 days. You can upgrade to a paid plan at any time during your trial period.
+                    Welcome to Amaze Community. You can upgrade to a higher plan at any time during your community membership.
                   </p>
                 </div>
               )}
@@ -1025,7 +1025,7 @@ const SubscriptionSignup: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-between mt-8">
+            <div className="flex justify-center mt-8 space-x-10">
               <button
                 onClick={handleBack}
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
