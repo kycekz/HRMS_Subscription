@@ -492,7 +492,7 @@ const Homepage: React.FC<HomepageProps> = ({ onNavigate }) => {
             alt="Amazing Cube"
           />
         </div>
-        <p>&copy; 2025 Amazing Cube. All rights reserved. | Empowering businesses through intelligent automation.</p>
+        <p>&copy; 2026 Amazing Cube Consulting Sdn Bhd (1618147-V). All rights reserved. | Empowering businesses through intelligent automation.</p>
       </footer>
     </div>
   );
