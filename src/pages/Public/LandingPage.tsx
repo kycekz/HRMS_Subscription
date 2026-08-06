@@ -37,7 +37,7 @@ const LandingPage: React.FC = () => {
               <a href="#features" className="text-white/80 hover:text-white transition-colors duration-200">Features</a>
               <a href="#demo" className="text-white/80 hover:text-white transition-colors duration-200">Demo</a>
               <a href="#pricing" className="text-white/80 hover:text-white transition-colors duration-200">Pricing</a>
-              <a href="#" className="text-white/80 hover:text-white transition-colors duration-200">Resources</a>
+              <a href="#" className="text-white/80 hover:text-white transition-colors duration-200">Solution</a>
             </nav>
             
             <div className="flex items-center space-x-4">

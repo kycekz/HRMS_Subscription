@@ -8,6 +8,7 @@ import mainHtml from './pages/Public/Main.html?raw';
 import Maintsx from './pages/Public/Maintsx';
 import Wip from './pages/Public/wip';
 import BIsolution from './pages/Public/Business_Intelligent.tsx';
+import LHDNEInvoice from './pages/Public/LHDNEInvoice';
 import Learning from './pages/Public/LearningDevelopment';
 import ContactUs from './pages/Public/ContactUs';
 import Community from './pages/Public/community';
@@ -31,6 +32,7 @@ function App() {
       <Route path="/maintsx" element={<Maintsx />} />
       <Route path="/wip" element={<Wip />} />
       <Route path="/Business_Intelligent" element={<BIsolution />} />
+      <Route path="/lhdn-e-invoice" element={<LHDNEInvoice />} />
       <Route path="/learning" element={<ErrorBoundary><Learning/></ErrorBoundary>} />
       <Route path="/learning-development" element={<ErrorBoundary><Learning/></ErrorBoundary>} />
       <Route path="/course/:courseId" element={<ErrorBoundary><PublicCoursePage/></ErrorBoundary>} />

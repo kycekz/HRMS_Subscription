@@ -77,7 +77,7 @@ const Navigation = () => {
             }}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            Resources <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
+            Solutions <span style={{ fontSize: '0.7rem', marginLeft: '0.3rem' }}>▼</span>
           </div>
           <div style={{
             position: 'absolute',
@@ -94,7 +94,7 @@ const Navigation = () => {
             transform: isDropdownOpen ? 'translateY(0)' : 'translateY(-10px)',
             transition: 'all 0.3s',
           }}>
-            <div 
+            <div
               style={{ padding: '1rem 1.5rem', cursor: 'pointer', transition: 'background 0.2s' }}
               onClick={() => handleSolutionClick('HRMS')}
               onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
@@ -117,6 +117,14 @@ const Navigation = () => {
               onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
             >
               Learning & Development
+            </div>
+            <div
+              style={{ padding: '1rem 1.5rem', cursor: 'pointer', transition: 'background 0.2s' }}
+              onClick={() => { setIsDropdownOpen(false); handleNavigate('/lhdn-e-invoice'); }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9ff'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+            >
+              LHDN e-Invoice
             </div>
           </div>
         </li>
